@@ -1,0 +1,968 @@
+html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMOH NET | Premium Digital Services in Nigeria</title>
+    <meta name="description" content="Whatever you do, get into network. Fast, reliable, and secure airtime, data, cable TV, and bill payments in Nigeria. Join GMOH NET today.">
+    
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="GMOH NET | Premium Digital Services">
+    <meta property="og:description" content="Experience lightning-fast digital services. Buy data, airtime, and pay bills securely.">
+    <meta property="og:image" content="logo.png"> <!-- Placeholder for actual OG image -->
+    
+    <!-- Fonts: Plus Jakarta Sans (Headings) & Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Configuration & Custom CSS -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#82E01E', // Bright Neon Green from logo
+                            dark: '#030303',  // Very deep black
+                            card: '#0A0A0A',  // Slightly lighter black for cards
+                            border: '#1F1F1F', // Subtle border color
+                            gray: '#888888',
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'hero-glow': 'conic-gradient(from 180deg at 50% 50%, #82E01E22 0deg, transparent 180deg, #82E01E22 360deg)',
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Premium Utilities */
+        body {
+            background-color: #030303;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Hide scrollbar for clean look but keep functionality */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030303; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F1F1F; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #333; 
+        }
+
+        .glass-nav {
+            background: rgba(3, 3, 3, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(130, 224, 30, 0.3);
+            box-shadow: 0 10px 40px -10px rgba(130, 224, 30, 0.15);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #ffffff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .text-gradient-brand {
+            background: linear-gradient(to right, #82E01E, #a3f053);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Scroll Reveal Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* Animated background mesh */
+        .bg-mesh {
+            background-image: 
+                radial-gradient(at 40% 20%, hsla(88,77%,50%,0.05) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, hsla(189,100%,56%,0.03) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(88,77%,50%,0.05) 0px, transparent 50%);
+        }
+
+        /* Button Glow */
+        .btn-glow {
+            position: relative;
+        }
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #82E01E, transparent, #82E01E);
+            z-index: -1;
+            border-radius: inherit;
+            filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .btn-glow:hover::before {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark overflow-x-hidden selection:bg-brand-green selection:text-black font-sans bg-mesh min-h-screen flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <!-- Placeholder for actual logo.png -->
+                    <div class="w-10 h-10 rounded bg-gradient-to-br from-brand-green to-green-700 flex items-center justify-center shadow-[0_0_15px_rgba(130,224,30,0.4)]">
+                        <span class="font-display font-bold text-black text-xl italic tracking-tighter">GN</span>
+                    </div>
+                    <span class="font-display font-bold text-xl tracking-wide flex items-center gap-1">
+                        GMOH <span class="text-brand-green">NET</span>
+                    </span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#services" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Services</a>
+                    <a href="#features" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Features</a>
+                    <a href="#how-it-works" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">How it Works</a>
+                    <a href="#testimonials" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Testimonials</a>
+                </div>
+
+                <!-- Auth Buttons -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#" class="text-sm font-medium text-white hover:text-brand-green transition-colors">Sign In</a>
+                    <a href="#" class="btn-glow px-5 py-2.5 rounded-full bg-brand-green text-black font-semibold text-sm hover:bg-[#72c918] transition-all transform hover:scale-105 active:scale-95">
+                        Create Account
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none p-2">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-card border-b border-brand-border absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#services" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-brand-green hover:bg-brand-dark rounded-md">Services</a>
+                <a href="#features" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-brand-green hover:bg-brand-dark rounded-md">Features</a>
+                <a href="#how-it-works" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-brand-green hover:bg-brand-dark rounded-md">How it Works</a>
+                <div class="pt-4 mt-2 border-t border-brand-border flex flex-col gap-3 px-3">
+                    <a href="#" class="w-full text-center py-3 text-base font-medium text-white border border-brand-border rounded-lg hover:bg-brand-border">Sign In</a>
+                    <a href="#" class="w-full text-center py-3 text-base font-semibold bg-brand-green text-black rounded-lg">Create Account</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        
+        <!-- Hero Section -->
+        <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+            <!-- Background Glow Effects -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-hero-glow opacity-30 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card mb-8 reveal">
+                    <span class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span>
+                    <span class="text-xs font-medium text-gray-300 uppercase tracking-wider">Whatever You Do, Get Into Network</span>
+                </div>
+
+                <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 reveal reveal-delay-1 leading-[1.1]">
+                    The Premium <br />
+                    <span class="text-gradient-brand italic pr-2">Digital Ecosystem</span>
+                </h1>
+                
+                <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-brand-gray font-light reveal reveal-delay-2">
+                    Experience lightning-fast airtime, data bundles, and utility payments. Built for Nigerians who demand speed, security, and absolute reliability.
+                </p>
+                
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center reveal reveal-delay-3">
+                    <a href="#" class="btn-glow w-full sm:w-auto px-8 py-4 rounded-full bg-brand-green text-black font-bold text-lg hover:bg-[#72c918] transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                        Get Started Free
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#services" class="w-full sm:w-auto px-8 py-4 rounded-full glass-card text-white font-medium text-lg hover:bg-white/5 transition-colors flex items-center justify-center gap-2 group">
+                        Explore Services
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 group-hover:translate-y-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- Abstract 3D/Floating UI Elements Representation -->
+                <div class="mt-20 relative mx-auto w-full max-w-5xl reveal reveal-delay-3 h-[300px] sm:h-[400px] perspective-1000">
+                    <!-- Main Dashboard Card -->
+                    <div class="absolute inset-0 bg-brand-card rounded-2xl border border-brand-border shadow-2xl overflow-hidden transform rotate-x-12 scale-95 animate-float z-20" style="transform: perspective(1000px) rotateX(5deg);">
+                        <!-- Fake UI Header -->
+                        <div class="h-14 border-b border-brand-border flex items-center px-6 justify-between bg-[#0f0f0f]">
+                            <div class="flex gap-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                                <div class="w-3 h-3 rounded-full bg-brand-green/50"></div>
+                            </div>
+                            <div class="w-32 h-4 bg-brand-border rounded-full"></div>
+                            <div class="w-8 h-8 rounded-full bg-brand-border"></div>
+                        </div>
+                        <!-- Fake UI Body -->
+                        <div class="p-6 grid grid-cols-3 gap-6 h-full">
+                            <div class="col-span-2 space-y-4">
+                                <div class="h-32 rounded-xl bg-gradient-to-r from-brand-green/20 to-transparent border border-brand-green/30 p-6 flex flex-col justify-center">
+                                    <div class="w-24 h-4 bg-brand-green/50 rounded mb-2"></div>
+                                    <div class="w-48 h-8 bg-white/90 rounded"></div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="h-24 rounded-xl bg-[#111] border border-brand-border"></div>
+                                    <div class="h-24 rounded-xl bg-[#111] border border-brand-border"></div>
+                                </div>
+                            </div>
+                            <div class="col-span-1 border-l border-brand-border pl-6 space-y-4">
+                                <div class="h-8 w-full bg-[#111] rounded"></div>
+                                <div class="h-8 w-full bg-[#111] rounded"></div>
+                                <div class="h-8 w-full bg-[#111] rounded"></div>
+                                <div class="h-8 w-full bg-[#111] rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating abstract elements -->
+                    <div class="absolute -right-10 top-10 w-32 h-32 bg-brand-green/10 rounded-full blur-2xl animate-blob z-10"></div>
+                    <div class="absolute -left-10 bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl animate-blob animation-delay-2000 z-10"></div>
+                    
+                    <!-- Floating Small Card -->
+                    <div class="absolute -right-4 md:-right-12 top-1/4 glass-card p-4 rounded-xl z-30 animate-float delay-150 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                            <i data-lucide="check" class="text-brand-green w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-white">Transfer Successful</p>
+                            <p class="text-xs text-brand-gray">Just now</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust / Stats Section -->
+        <section class="py-10 border-y border-brand-border bg-[#070707]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-brand-border/50">
+                    <div class="reveal">
+                        <p class="text-3xl md:text-4xl font-display font-bold text-white mb-1">99.9%</p>
+                        <p class="text-sm text-brand-gray font-medium uppercase tracking-wider">Uptime</p>
+                    </div>
+                    <div class="reveal reveal-delay-1">
+                        <p class="text-3xl md:text-4xl font-display font-bold text-white mb-1">500K+</p>
+                        <p class="text-sm text-brand-gray font-medium uppercase tracking-wider">Transactions</p>
+                    </div>
+                    <div class="reveal reveal-delay-2">
+                        <p class="text-3xl md:text-4xl font-display font-bold text-white mb-1"><0.5s</p>
+                        <p class="text-sm text-brand-gray font-medium uppercase tracking-wider">Delivery Time</p>
+                    </div>
+                    <div class="reveal reveal-delay-3">
+                        <p class="text-3xl md:text-4xl font-display font-bold text-white mb-1">24/7</p>
+                        <p class="text-sm text-brand-gray font-medium uppercase tracking-wider">Active Support</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-24 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <h2 class="font-display text-3xl md:text-5xl font-bold mb-4">Everything you need,<br><span class="text-gradient">in one powerful platform.</span></h2>
+                    <p class="text-brand-gray text-lg">Stop jumping between apps. Manage all your digital utility needs instantly from a single, secure wallet.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Service Card 1 -->
+                    <div class="glass-card p-8 rounded-2xl group cursor-pointer reveal">
+                        <div class="w-14 h-14 rounded-xl bg-[#111] border border-brand-border flex items-center justify-center mb-6 group-hover:border-brand-green/50 group-hover:bg-brand-green/10 transition-colors">
+                            <i data-lucide="wifi" class="w-7 h-7 text-white group-hover:text-brand-green transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">Data Bundles</h3>
+                        <p class="text-brand-gray text-sm leading-relaxed mb-6">Ultra-fast internet data for MTN, Airtel, Glo, and 9mobile at unbeatable wholesale prices. Delivered instantly.</p>
+                        <div class="flex items-center text-brand-green text-sm font-semibold group-hover:gap-2 transition-all">
+                            Buy Data <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 2 -->
+                    <div class="glass-card p-8 rounded-2xl group cursor-pointer reveal reveal-delay-1">
+                        <div class="w-14 h-14 rounded-xl bg-[#111] border border-brand-border flex items-center justify-center mb-6 group-hover:border-brand-green/50 group-hover:bg-brand-green/10 transition-colors">
+                            <i data-lucide="smartphone" class="w-7 h-7 text-white group-hover:text-brand-green transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">Airtime Top-up</h3>
+                        <p class="text-brand-gray text-sm leading-relaxed mb-6">Recharge your line or send airtime to loved ones securely. Enjoy instant crediting and cashback rewards.</p>
+                        <div class="flex items-center text-brand-green text-sm font-semibold group-hover:gap-2 transition-all">
+                            Buy Airtime <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 3 -->
+                    <div class="glass-card p-8 rounded-2xl group cursor-pointer reveal reveal-delay-2">
+                        <div class="w-14 h-14 rounded-xl bg-[#111] border border-brand-border flex items-center justify-center mb-6 group-hover:border-brand-green/50 group-hover:bg-brand-green/10 transition-colors">
+                            <i data-lucide="zap" class="w-7 h-7 text-white group-hover:text-brand-green transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">Electricity Bills</h3>
+                        <p class="text-brand-gray text-sm leading-relaxed mb-6">Pay IKEDC, EKEDC, AEDC, and all other DISCOs nationwide. Generate your token instantly without leaving the couch.</p>
+                        <div class="flex items-center text-brand-green text-sm font-semibold group-hover:gap-2 transition-all">
+                            Pay Bills <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 4 -->
+                    <div class="glass-card p-8 rounded-2xl group cursor-pointer reveal">
+                        <div class="w-14 h-14 rounded-xl bg-[#111] border border-brand-border flex items-center justify-center mb-6 group-hover:border-brand-green/50 group-hover:bg-brand-green/10 transition-colors">
+                            <i data-lucide="tv" class="w-7 h-7 text-white group-hover:text-brand-green transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">Cable TV</h3>
+                        <p class="text-brand-gray text-sm leading-relaxed mb-6">Renew DSTV, GOTV, and Startimes subscriptions. Never miss a moment of your favorite shows. Instant activation.</p>
+                        <div class="flex items-center text-brand-green text-sm font-semibold group-hover:gap-2 transition-all">
+                            Subscribe Now <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 5 -->
+                    <div class="glass-card p-8 rounded-2xl group cursor-pointer reveal reveal-delay-1">
+                        <div class="w-14 h-14 rounded-xl bg-[#111] border border-brand-border flex items-center justify-center mb-6 group-hover:border-brand-green/50 group-hover:bg-brand-green/10 transition-colors">
+                            <i data-lucide="graduation-cap" class="w-7 h-7 text-white group-hover:text-brand-green transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">Result Checkers</h3>
+                        <p class="text-brand-gray text-sm leading-relaxed mb-6">Purchase authentic WAEC, NECO, and NABTEB result checking PINs directly. Get PINs delivered via SMS/Email instantly.</p>
+                        <div class="flex items-center text-brand-green text-sm font-semibold group-hover:gap-2 transition-all">
+                            Get PINs <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 6 (Agent) -->
+                    <div class="glass-card p-8 rounded-2xl group cursor-pointer reveal reveal-delay-2 border-brand-green/20 bg-gradient-to-br from-brand-card to-[#0a1403]">
+                        <div class="w-14 h-14 rounded-xl bg-brand-green text-black flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(130,224,30,0.4)]">
+                            <i data-lucide="briefcase" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">Become an Agent</h3>
+                        <p class="text-brand-gray text-sm leading-relaxed mb-6">Start your own Vtu business. Get massive discounts, dedicated API access, and earn money daily with GMOH NET.</p>
+                        <div class="flex items-center text-brand-green text-sm font-semibold group-hover:gap-2 transition-all">
+                            Join Network <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Bento Box -->
+        <section id="features" class="py-24 bg-[#050505] relative overflow-hidden">
+             <!-- Top subtle line -->
+             <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-brand-border to-transparent"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-16 reveal">
+                    <h2 class="font-display text-3xl md:text-5xl font-bold mb-4">Engineered for <span class="text-brand-green">Excellence.</span></h2>
+                    <p class="text-brand-gray text-lg max-w-2xl">Not just another VTU platform. We built a robust financial infrastructure designed to never fail you.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
+                    <!-- Bento Item 1: Large Dashboard -->
+                    <div class="md:col-span-2 glass-card rounded-3xl p-8 relative overflow-hidden group reveal">
+                        <div class="relative z-10 w-full md:w-2/3">
+                            <div class="w-12 h-12 rounded-full bg-brand-border flex items-center justify-center mb-4">
+                                <i data-lucide="layout-dashboard" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <h3 class="text-2xl font-display font-bold text-white mb-2">Smart Dashboard</h3>
+                            <p class="text-brand-gray">Track spending, analyze patterns, and manage your wallet balance with a beautiful, intuitive interface.</p>
+                        </div>
+                        <!-- Decorative graphic -->
+                        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-brand-green/10 rounded-full blur-3xl group-hover:bg-brand-green/20 transition-colors"></div>
+                        <div class="absolute right-0 bottom-0 p-6 hidden md:block opacity-50 group-hover:opacity-100 transition-opacity">
+                             <img src="data:image/svg+xml,%3Csvg width='150' height='100' viewBox='0 0 150 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 90 L40 50 L70 70 L110 20 L140 40' stroke='%2382E01E' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" alt="Graph" class="w-full h-auto">
+                        </div>
+                    </div>
+
+                    <!-- Bento Item 2: Security -->
+                    <div class="glass-card rounded-3xl p-8 relative overflow-hidden group reveal reveal-delay-1">
+                        <div class="w-12 h-12 rounded-full bg-brand-border flex items-center justify-center mb-4">
+                            <i data-lucide="shield-check" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-display font-bold text-white mb-2">Bank-Grade Security</h3>
+                        <p class="text-brand-gray text-sm">256-bit encryption, 2FA, and biometric login protect your funds.</p>
+                    </div>
+
+                    <!-- Bento Item 3: Referrals -->
+                    <div class="glass-card rounded-3xl p-8 relative overflow-hidden group reveal reveal-delay-2">
+                        <div class="w-12 h-12 rounded-full bg-brand-border flex items-center justify-center mb-4">
+                            <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-display font-bold text-white mb-2">Referral Rewards</h3>
+                        <p class="text-brand-gray text-sm">Earn lifelong commissions for every user you bring to the network.</p>
+                    </div>
+
+                    <!-- Bento Item 4: Automation (Wide) -->
+                    <div class="md:col-span-2 glass-card rounded-3xl p-8 relative overflow-hidden group reveal flex flex-col justify-between">
+                         <div>
+                            <div class="w-12 h-12 rounded-full bg-brand-border flex items-center justify-center mb-4">
+                                <i data-lucide="zap" class="w-6 h-6 text-brand-green"></i>
+                            </div>
+                            <h3 class="text-2xl font-display font-bold text-white mb-2">Automated Infrastructure</h3>
+                            <p class="text-brand-gray max-w-md">No human intervention required. Our servers process thousands of requests per second, ensuring your services are delivered instantly, 24/7/365.</p>
+                        </div>
+                        <div class="mt-4 flex gap-2">
+                            <span class="px-3 py-1 bg-[#111] border border-brand-border rounded-full text-xs text-white">API Integrated</span>
+                            <span class="px-3 py-1 bg-[#111] border border-brand-border rounded-full text-xs text-white">Zero Downtime</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="font-display text-3xl md:text-5xl font-bold mb-4">Seamless Experience.</h2>
+                    <p class="text-brand-gray text-lg">From zero to completed transaction in under 60 seconds.</p>
+                </div>
+
+                <div class="relative">
+                    <!-- Connecting Line (Desktop) -->
+                    <div class="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-brand-border -z-10">
+                        <div class="absolute inset-y-0 left-0 bg-brand-green w-1/3 shadow-[0_0_10px_#82E01E]"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                        <!-- Step 1 -->
+                        <div class="relative text-center reveal">
+                            <div class="w-24 h-24 mx-auto bg-brand-card border-2 border-brand-green rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(130,224,30,0.15)] z-10 relative">
+                                <i data-lucide="user-plus" class="w-10 h-10 text-brand-green"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Create Account</h3>
+                            <p class="text-sm text-brand-gray">Sign up in seconds with just your name, email, and phone number.</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="relative text-center reveal reveal-delay-1">
+                            <div class="w-24 h-24 mx-auto bg-brand-card border-2 border-brand-border rounded-full flex items-center justify-center mb-6 z-10 relative">
+                                <i data-lucide="wallet" class="w-10 h-10 text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Fund Wallet</h3>
+                            <p class="text-sm text-brand-gray">Transfer to your dedicated virtual account or use debit card.</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="relative text-center reveal reveal-delay-2">
+                            <div class="w-24 h-24 mx-auto bg-brand-card border-2 border-brand-border rounded-full flex items-center justify-center mb-6 z-10 relative">
+                                <i data-lucide="shopping-cart" class="w-10 h-10 text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Choose Service</h3>
+                            <p class="text-sm text-brand-gray">Select data, airtime, or bill payment from our sleek dashboard.</p>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="relative text-center reveal reveal-delay-3">
+                            <div class="w-24 h-24 mx-auto bg-brand-card border-2 border-brand-border rounded-full flex items-center justify-center mb-6 z-10 relative">
+                                <i data-lucide="check-circle" class="w-10 h-10 text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Instant Delivery</h3>
+                            <p class="text-sm text-brand-gray">Enjoy immediate value delivery and instant email receipts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- App Preview Section -->
+        <section class="py-24 bg-[#050505] overflow-hidden relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row items-center gap-16">
+                    
+                    <!-- Text Content -->
+                    <div class="w-full lg:w-1/2 reveal">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
+                            <i data-lucide="smartphone" class="w-4 h-4 text-brand-green"></i>
+                            <span class="text-xs font-medium text-gray-300">Mobile Experience</span>
+                        </div>
+                        <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">Your digital life,<br>in your pocket.</h2>
+                        <p class="text-brand-gray text-lg mb-8 leading-relaxed">
+                            Access GMOH NET on any device. Our progressive web app provides a native-like experience on iOS and Android. Save it to your home screen for one-tap access to all services.
+                        </p>
+                        
+                        <ul class="space-y-4 mb-10">
+                            <li class="flex items-center gap-3 text-white">
+                                <i data-lucide="check" class="w-5 h-5 text-brand-green"></i>
+                                Face ID / Biometric Login
+                            </li>
+                            <li class="flex items-center gap-3 text-white">
+                                <i data-lucide="check" class="w-5 h-5 text-brand-green"></i>
+                                Push Notifications for transactions
+                            </li>
+                            <li class="flex items-center gap-3 text-white">
+                                <i data-lucide="check" class="w-5 h-5 text-brand-green"></i>
+                                Offline PIN generation support
+                            </li>
+                        </ul>
+
+                        <button class="glass-card px-8 py-4 rounded-xl text-white font-medium hover:bg-white/5 transition-all flex items-center gap-3 group">
+                            <i data-lucide="download" class="w-5 h-5 group-hover:text-brand-green transition-colors"></i>
+                            Install Web App
+                        </button>
+                    </div>
+
+                    <!-- Visual / Phone Mockup -->
+                    <div class="w-full lg:w-1/2 relative reveal reveal-delay-2 flex justify-center">
+                        <!-- Abstract Phone Frame via CSS -->
+                        <div class="w-[300px] h-[600px] rounded-[40px] border-[8px] border-[#1f1f1f] bg-brand-dark relative shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden z-20">
+                            <!-- Notch -->
+                            <div class="absolute top-0 inset-x-0 h-6 flex justify-center">
+                                <div class="w-32 h-6 bg-[#1f1f1f] rounded-b-3xl"></div>
+                            </div>
+                            
+                            <!-- App Content Fake UI -->
+                            <div class="p-6 pt-12 h-full flex flex-col">
+                                <div class="flex justify-between items-center mb-8">
+                                    <div>
+                                        <p class="text-xs text-brand-gray">Total Balance</p>
+                                        <p class="text-2xl font-bold text-white">₦45,250.00</p>
+                                    </div>
+                                    <div class="w-10 h-10 rounded-full bg-brand-green/20 flex items-center justify-center">
+                                        <i data-lucide="plus" class="text-brand-green w-5 h-5"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-4 gap-4 mb-8">
+                                    <div class="flex flex-col items-center gap-2">
+                                        <div class="w-12 h-12 rounded-full bg-[#111] flex items-center justify-center"><i data-lucide="wifi" class="w-5 h-5 text-white"></i></div>
+                                        <span class="text-[10px] text-gray-400">Data</span>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-2">
+                                        <div class="w-12 h-12 rounded-full bg-[#111] flex items-center justify-center"><i data-lucide="smartphone" class="w-5 h-5 text-white"></i></div>
+                                        <span class="text-[10px] text-gray-400">Airtime</span>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-2">
+                                        <div class="w-12 h-12 rounded-full bg-[#111] flex items-center justify-center"><i data-lucide="tv" class="w-5 h-5 text-white"></i></div>
+                                        <span class="text-[10px] text-gray-400">Cable</span>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-2">
+                                        <div class="w-12 h-12 rounded-full bg-[#111] flex items-center justify-center"><i data-lucide="zap" class="w-5 h-5 text-white"></i></div>
+                                        <span class="text-[10px] text-gray-400">Power</span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p class="text-sm font-semibold mb-4">Recent Transactions</p>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between items-center bg-[#111] p-3 rounded-xl">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-brand-green/20 flex items-center justify-center"><i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-green"></i></div>
+                                                <div>
+                                                    <p class="text-xs font-medium">MTN 5GB Data</p>
+                                                    <p class="text-[10px] text-brand-gray">Today, 2:30 PM</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-xs font-bold text-white">-₦1,200</p>
+                                        </div>
+                                        <div class="flex justify-between items-center bg-[#111] p-3 rounded-xl">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-brand-border flex items-center justify-center"><i data-lucide="arrow-down-left" class="w-4 h-4 text-white"></i></div>
+                                                <div>
+                                                    <p class="text-xs font-medium">Wallet Funding</p>
+                                                    <p class="text-[10px] text-brand-gray">Yesterday</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-xs font-bold text-brand-green">+₦10,000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Decoration behind phone -->
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[120%] bg-brand-green/5 blur-[100px] rounded-full z-10"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="testimonials" class="py-24 border-y border-brand-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="font-display text-3xl md:text-5xl font-bold mb-4">Trusted by Thousands.</h2>
+                    <p class="text-brand-gray text-lg">Don't just take our word for it. Hear from our satisfied users.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Testimonial 1 -->
+                    <div class="glass-card p-8 rounded-2xl reveal">
+                        <div class="flex text-yellow-500 mb-4">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-300 mb-6 italic">"GMOH NET is incredibly fast. I use it to buy data for my entire office and the transactions go through literally instantly. The dashboard is also very beautiful."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center font-bold">OA</div>
+                            <div>
+                                <p class="text-white font-bold text-sm">Olamide A.</p>
+                                <p class="text-brand-gray text-xs">Business Owner</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="glass-card p-8 rounded-2xl reveal reveal-delay-1">
+                        <div class="flex text-yellow-500 mb-4">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-300 mb-6 italic">"As a reseller, pricing is everything. GMOH NET offers the best wholesale rates I've seen, and their API integration was seamless. Highly recommended."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-green to-green-800 text-black flex items-center justify-center font-bold">CE</div>
+                            <div>
+                                <p class="text-white font-bold text-sm">Chinedu E.</p>
+                                <p class="text-brand-gray text-xs">VTU Agent</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="glass-card p-8 rounded-2xl reveal reveal-delay-2">
+                        <div class="flex text-yellow-500 mb-4">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-gray-600"></i>
+                        </div>
+                        <p class="text-gray-300 mb-6 italic">"I love how easy it is to pay my electricity bills late at night. No more waiting in lines or dealing with bank app downtimes. It just works."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center font-bold">FJ</div>
+                            <div>
+                                <p class="text-white font-bold text-sm">Fatima J.</p>
+                                <p class="text-brand-gray text-xs">Student</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="py-24 bg-[#050505]">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- FAQ Item 1 -->
+                    <div class="glass-card rounded-xl overflow-hidden reveal">
+                        <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                            <span class="font-medium text-white">How do I fund my wallet?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-gray transition-transform duration-300"></i>
+                        </button>
+                        <div class="px-6 pb-5 text-brand-gray text-sm hidden">
+                            You can fund your wallet instantly via dedicated virtual bank accounts automatically assigned to you upon registration, or by using your ATM card via Paystack/Monnify gateways.
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="glass-card rounded-xl overflow-hidden reveal reveal-delay-1">
+                        <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                            <span class="font-medium text-white">Are the data bundles normal or SME?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-gray transition-transform duration-300"></i>
+                        </button>
+                        <div class="px-6 pb-5 text-brand-gray text-sm hidden">
+                            We provide a variety of options including SME, Corporate Gifting, and Direct Data. You can choose whichever suits your needs and budget perfectly from the dashboard.
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="glass-card rounded-xl overflow-hidden reveal reveal-delay-2">
+                        <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                            <span class="font-medium text-white">How does the referral system work?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-gray transition-transform duration-300"></i>
+                        </button>
+                        <div class="px-6 pb-5 text-brand-gray text-sm hidden">
+                            Share your unique referral link found in your dashboard. When someone registers and performs a transaction, you earn a percentage commission instantly credited to your wallet.
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="glass-card rounded-xl overflow-hidden reveal reveal-delay-3">
+                        <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                            <span class="font-medium text-white">What happens if my transaction fails?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-gray transition-transform duration-300"></i>
+                        </button>
+                        <div class="px-6 pb-5 text-brand-gray text-sm hidden">
+                            Our system is highly automated. In the rare event of a network failure from the service provider, your money is automatically reversed to your wallet within minutes. No need to contact support.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="py-24 relative overflow-hidden">
+             <div class="absolute inset-0 bg-brand-green/5"></div>
+             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-64 bg-brand-green/20 blur-[120px] rounded-full z-0"></div>
+             
+             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 reveal">
+                <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-6">Ready to upgrade your<br>digital experience?</h2>
+                <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">Join thousands of Nigerians enjoying fast, secure, and affordable digital services today.</p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="btn-glow px-10 py-5 rounded-full bg-brand-green text-black font-bold text-lg hover:bg-[#72c918] transition-all transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(130,224,30,0.3)]">
+                        Create Free Account
+                    </button>
+                </div>
+                <p class="mt-6 text-sm text-brand-gray flex items-center justify-center gap-2">
+                    <i data-lucide="lock" class="w-4 h-4"></i> Secure 256-bit encryption. No hidden fees.
+                </p>
+             </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-card pt-16 pb-8 border-t border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
+                
+                <!-- Brand Info -->
+                <div class="lg:col-span-2">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 rounded bg-gradient-to-br from-brand-green to-green-700 flex items-center justify-center">
+                            <span class="font-display font-bold text-black text-sm italic">GN</span>
+                        </div>
+                        <span class="font-display font-bold text-xl tracking-wide">
+                            GMOH <span class="text-brand-green">NET</span>
+                        </span>
+                    </div>
+                    <p class="text-brand-gray text-sm mb-6 max-w-md">
+                        Whatever you do, get into network. The most reliable and premium digital utility platform in Nigeria.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#111] border border-brand-border flex items-center justify-center text-gray-400 hover:text-brand-green hover:border-brand-green transition-colors">
+                            <i data-lucide="twitter" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#111] border border-brand-border flex items-center justify-center text-gray-400 hover:text-brand-green hover:border-brand-green transition-colors">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#111] border border-brand-border flex items-center justify-center text-gray-400 hover:text-brand-green hover:border-brand-green transition-colors">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-3 text-sm text-brand-gray">
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Home</a></li>
+                        <li><a href="#services" class="hover:text-brand-green transition-colors">Services</a></li>
+                        <li><a href="#how-it-works" class="hover:text-brand-green transition-colors">How it works</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Pricing</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition-colors">Become an Agent</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Legal</h4>
+                    <ul class="space-y-3 text-sm text-brand-gray">
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Refund Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Security</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Contact Us</h4>
+                    <ul class="space-y-4 text-sm text-brand-gray">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-brand-green shrink-0"></i>
+                            <a href="mailto:support@gmohnet.com" class="hover:text-white">support@gmohnet.com</a>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-brand-green shrink-0"></i>
+                            <div>
+                                <a href="tel:+2347086676866" class="block hover:text-white">+234 708 667 6866</a>
+                                <a href="tel:+2348037899816" class="block hover:text-white mt-1">+234 803 789 9816</a>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-brand-green shrink-0"></i>
+                            <span>Bauchi State, Nigeria<br>Mon - Sat (8AM - 6PM)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-brand-border flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-brand-gray text-xs">
+                    &copy; <span id="year"></span> GMOH NET. All rights reserved.
+                </p>
+                <div class="flex items-center gap-2 text-brand-gray text-xs">
+                    Made with <i data-lucide="heart" class="w-3 h-3 text-brand-green fill-current"></i> for Nigeria.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // FAQ Accordion Logic
+        function toggleFaq(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            // Close all others
+            document.querySelectorAll('.faq-content').forEach(el => {
+                if(el !== content && !el.classList.contains('hidden')) {
+                    el.classList.add('hidden');
+                    el.previousElementSibling.querySelector('i').style.transform = 'rotate(0deg)';
+                }
+            });
+
+            // Toggle current
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+                content.classList.add('faq-content'); // Add class for tracking
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Run once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((element) => {
+            observer.observe(element);
+        });
+
+        // Navbar blur on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(3, 3, 3, 0.85)';
+                nav.style.borderBottom = '1px solid rgba(130, 224, 30, 0.1)';
+            } else {
+                nav.style.background = 'rgba(3, 3, 3, 0.7)';
+                nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
+            }
+        });
+    </script>
+</body>
+</html>
