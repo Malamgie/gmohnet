@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMWAJ Portal — Premium Travel Management</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0A1118',
+                            primary: '#1A2F45',
+                            sand: '#F5F2EB',
+                            gold: '#C5A880',
+                            surface: '#FFFFFF',
+                            muted: '#6B7280',
+                            border: '#E5E7EB',
+                            error: '#DC2626',
+                            success: '#059669',
+                            warning: '#D97706',
+                            info: '#2563EB'
+                        }
+                    },
+                    boxShadow: {
+                        'premium': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                        'premium-hover': '0 20px 40px -10px rgba(0,0,0,0.12)',
+                        'modal': '0 25px 50px -12px rgba(0,0,0,0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: theme('colors.gray.50');
+            color: theme('colors.brand.dark');
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .dark body {
+            background-color: theme('colors.brand.dark');
+            color: theme('colors.brand.sand');
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: theme('colors.brand.border'); border-radius: 4px; }
+        .dark ::-webkit-scrollbar-thumb { background: theme('colors.gray.700'); }
+        ::-webkit-scrollbar-thumb:hover { background: theme('colors.brand.gold'); }
+
+        /* Loader */
+        .spinner {
+            border: 3px solid rgba(197, 168, 128, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid theme('colors.brand.gold');
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Modal Transitions */
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: opacity 300ms, transform 300ms cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-exit { opacity: 1; transform: scale(1); }
+        .modal-exit-active { opacity: 0; transform: scale(0.95); transition: opacity 200ms, transform 200ms ease-in; }
+
+        /* Toast Animations */
+        .toast-enter { opacity: 0; transform: translateX(100%); }
+        .toast-enter-active { opacity: 1; transform: translateX(0); transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1); }
+
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* Hide elements dynamically */
+        .hidden { display: none !important; }
+        
+        /* Print styles */
+        @media print {
+            body * { visibility: hidden; }
+            #print-area, #print-area * { visibility: visible; }
+            #print-area { position: absolute; left: 0; top: 0; width: 100%; }
+        }
+    </style>
+</head>
+<body class="selection:bg-brand-gold selection:text-white transition-colors duration-300">
+
+    <!-- App Mount Point -->
+    <div id="app" class="min-h-screen flex w-full"></div>
+
+    <!-- Global Components (Modals, Toasts) -->
+    <div id="modal-root" class="relative z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-brand-dark/60 backdrop-blur-sm transition-opacity" id="modal-backdrop"></div>
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div id="modal-content" class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-900 text-left shadow-modal transition-all sm:my-8 sm:w-full sm:max-w-2xl border border-brand-border dark:border-gray-800">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-root" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+
+    <script>
+        const Utils = {
+            generateId: (prefix) => `${prefix}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+            formatDate: (dateStr) => {
+                if (!dateStr) return 'N/A';
+                return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            },
+            formatDateTime: (dateStr) => {
+                if (!dateStr) return 'N/A';
+                return new Date(dateStr).toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' });
+            },
+            formatCurrency: (amount) => {
+                return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+            },
+            escapeHTML: (str) => {
+                if (!str) return '';
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            },
+            truncate: (str, length) => str && str.length > length ? str.substring(0, length) + '...' : str,
+            getStatusColor: (status) => {
+                const colors = {
+                    'pending': 'bg-warning/10 text-warning border-warning/20',
+                    'confirmed': 'bg-info/10 text-info border-info/20',
+                    'payment_required': 'bg-warning/10 text-warning border-warning/20',
+                    'paid': 'bg-success/10 text-success border-success/20',
+                    'completed': 'bg-success/10 text-success border-success/20',
+                    'cancelled': 'bg-error/10 text-error border-error/20',
+                    'submitted': 'bg-info/10 text-info border-info/20',
+                    'under_review': 'bg-warning/10 text-warning border-warning/20',
+                    'docs_required': 'bg-error/10 text-error border-error/20',
+                    'processing': 'bg-info/10 text-info border-info/20',
+                    'approved': 'bg-success/10 text-success border-success/20',
+                    'rejected': 'bg-error/10 text-error border-error/20',
+                };
+                return colors[status.toLowerCase()] || 'bg-gray-100 text-gray-700 border-gray-200';
+            },
+            formatStatus: (status) => status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            fileToBase64: (file) => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            })
+        };
+
+        const DB = {
+            get: (collection) => JSON.parse(localStorage.getItem(collection) || '[]'),
+            set: (collection, data) => localStorage.setItem(collection, JSON.stringify(data)),
+            insert: (collection, record) => {
+                const data = DB.get(collection);
+                const newRecord = { ...record, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+                data.push(newRecord);
+                DB.set(collection, data);
+                return newRecord;
+            },
+            update: (collection, id, updates) => {
+                let data = DB.get(collection);
+                let updatedRecord = null;
+                data = data.map(item => {
+                    if (item.id === id) {
+                        updatedRecord = { ...item, ...updates, updatedAt: new Date().toISOString() };
+                        return updatedRecord;
+                    }
+                    return item;
+                });
+                DB.set(collection, data);
+                return updatedRecord;
+            },
+            remove: (collection, id) => {
+                const data = DB.get(collection).filter(item => item.id !== id);
+                DB.set(collection, data);
+            },
+            findOne: (collection, queryFn) => DB.get(collection).find(queryFn),
+            findMany: (collection, queryFn) => DB.get(collection).filter(queryFn),
+            clear: () => localStorage.clear()
+        };
+
+        const SeedData = () => {
+            if (!localStorage.getItem('amwaj_seeded')) {
+                DB.clear();
+                
+                // Seed Admin
+                DB.insert('amwaj_users', {
+                    id: 'USR-ADMIN', name: 'AMWAJ Admin', email: 'malamgiemou00@gmail.com', 
+                    password: btoa('Aliyoux@1'), role: 'admin', country: 'Nigeria', phone: '+234000000000'
+                });
+
+                // Seed Demo Customer
+                DB.insert('amwaj_users', {
+                    id: 'USR-DEMO', name: 'Demo Customer', email: 'demo@example.com', 
+                    password: btoa('demo123'), role: 'customer', country: 'Nigeria', phone: '+234111111111'
+                });
+
+                // Seed Properties
+                const properties = [
+                    { id: 'PROP-1', name: 'The Nile Executive Suite', country: 'Egypt', city: 'Cairo', type: 'Apartment', bedrooms: 2, bathrooms: 2, guests: 4, price: 120, amenities: ['WiFi', 'Kitchen', 'Nile View', 'AC'], image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=800&auto=format&fit=crop', verified: true, featured: true, description: 'Premium suite overlooking the Nile. Perfect for business and medical travelers.' },
+                    { id: 'PROP-2', name: 'Riyadh Diplomatic Villa', country: 'Saudi Arabia', city: 'Riyadh', type: 'Villa', bedrooms: 4, bathrooms: 4, guests: 8, price: 350, amenities: ['Pool', 'Security', 'Parking', 'WiFi'], image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop', verified: true, featured: true, description: 'Spacious secure villa in the Diplomatic Quarter.' },
+                    { id: 'PROP-3', name: 'Giza Pyramids View Loft', country: 'Egypt', city: 'Giza', type: 'Loft', bedrooms: 1, bathrooms: 1, guests: 2, price: 85, amenities: ['Pyramid View', 'Balcony', 'AC'], image: 'https://images.unsplash.com/photo-1502672260266-1c1c24240f57?q=80&w=800&auto=format&fit=crop', verified: true, featured: false, description: 'Wake up to the Pyramids.' },
+                    { id: 'PROP-4', name: 'Jeddah Seafront Studio', country: 'Saudi Arabia', city: 'Jeddah', type: 'Studio', bedrooms: 1, bathrooms: 1, guests: 2, price: 110, amenities: ['Sea View', 'Gym', 'WiFi'], image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=800&auto=format&fit=crop', verified: false, featured: false, description: 'Modern studio near the Corniche.' },
+                    { id: 'PROP-5', name: 'New Cairo Family Home', country: 'Egypt', city: 'New Cairo', type: 'Apartment', bedrooms: 3, bathrooms: 2, guests: 6, price: 150, amenities: ['Kitchen', 'Parking', 'Security'], image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop', verified: true, featured: false, description: 'Spacious family apartment in a quiet gated community.' }
+                ];
+                properties.forEach(p => DB.insert('amwaj_properties', p));
+
+                // Seed Bookings
+                DB.insert('amwaj_bookings', {
+                    id: 'AMW-BKG-1001', userId: 'USR-DEMO', propertyId: 'PROP-1', checkIn: '2026-09-01', checkOut: '2026-09-10', guests: 2, purpose: 'Tourism', status: 'confirmed', paymentStatus: 'payment_required', totalAmount: 1080
+                });
+
+                localStorage.setItem('amwaj_seeded', 'true');
+            }
+        };
+
+        const UI = {
+            showToast: (message, type = 'info') => {
+                const toastRoot = document.getElementById('toast-root');
+                const toast = document.createElement('div');
+                
+                const styles = {
+                    success: 'bg-white border-l-4 border-success text-brand-dark',
+                    error: 'bg-white border-l-4 border-error text-brand-dark',
+                    info: 'bg-white border-l-4 border-info text-brand-dark',
+                    warning: 'bg-white border-l-4 border-warning text-brand-dark'
+                };
+                
+                const icons = {
+                    success: '<i data-lucide="check-circle" class="w-5 h-5 text-success"></i>',
+                    error: '<i data-lucide="x-circle" class="w-5 h-5 text-error"></i>',
+                    info: '<i data-lucide="info" class="w-5 h-5 text-info"></i>',
+                    warning: '<i data-lucide="alert-triangle" class="w-5 h-5 text-warning"></i>'
+                };
+
+                toast.className = `${styles[type]} shadow-lg rounded-lg p-4 flex items-start gap-3 transform transition-all duration-300 pointer-events-auto`;
+                toast.innerHTML = `
+                    <div class="mt-0.5">${icons[type]}</div>
+                    <div class="flex-1 text-sm font-medium">${Utils.escapeHTML(message)}</div>
+                    <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-4 h-4"></i></button>
+                `;
+                
+                toastRoot.appendChild(toast);
+                lucide.createIcons({root: toast});
+                
+                // Animation in
+                requestAnimationFrame(() => {
+                    toast.classList.add('translate-x-0', 'opacity-100');
+                });
+
+                setTimeout(() => {
+                    toast.classList.add('opacity-0', 'translate-x-full');
+                    setTimeout(() => toast.remove(), 300);
+                }, 4000);
+            },
+            openModal: (title, contentHTML) => {
+                document.getElementById('modal-root').classList.remove('hidden');
+                document.getElementById('modal-content').innerHTML = `
+                    <div class="px-6 py-4 border-b border-brand-border dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800">
+                        <h3 class="text-lg font-serif font-medium" id="modal-title">${title}</h3>
+                        <button onclick="UI.closeModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div class="px-6 py-6 max-h-[75vh] overflow-y-auto">
+                        ${contentHTML}
+                    </div>
+                `;
+                lucide.createIcons({root: document.getElementById('modal-content')});
+                
+                // Enter animation
+                const content = document.getElementById('modal-content');
+                content.className = "relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-900 text-left shadow-modal sm:my-8 sm:w-full sm:max-w-2xl border border-brand-border dark:border-gray-800 modal-enter";
+                requestAnimationFrame(() => content.classList.add('modal-enter-active'));
+            },
+            closeModal: () => {
+                const content = document.getElementById('modal-content');
+                content.classList.remove('modal-enter', 'modal-enter-active');
+                content.classList.add('modal-exit-active');
+                setTimeout(() => {
+                    document.getElementById('modal-root').classList.add('hidden');
+                }, 200);
+            },
+            createLog: (userId, action, details) => {
+                DB.insert('amwaj_activity_log', { userId, action, details });
+            },
+            createNotification: (userId, title, message, type='info') => {
+                DB.insert('amwaj_notifications', { userId, title, message, type, read: false });
+            }
+        };
+
+        const Auth = {
+            getCurrentUser: () => {
+                const session = DB.get('amwaj_sessions')[0];
+                if (!session) return null;
+                return DB.findOne('amwaj_users', u => u.id === session.userId);
+            },
+            login: (email, password) => {
+                const user = DB.findOne('amwaj_users', u => u.email === email && u.password === btoa(password));
+                if (!user) throw new Error("Invalid credentials");
+                
+                DB.set('amwaj_sessions', [{ id: Utils.generateId('SESS'), userId: user.id, role: user.role, createdAt: new Date().toISOString() }]);
+                UI.createLog(user.id, 'Login', 'User logged in successfully');
+                return user;
+            },
+            signup: (data) => {
+                if (DB.findOne('amwaj_users', u => u.email === data.email)) throw new Error("Email already registered");
+                if (data.password !== data.confirmPassword) throw new Error("Passwords do not match");
+                
+                const user = DB.insert('amwaj_users', {
+                    id: Utils.generateId('USR'),
+                    name: `${data.firstName} ${data.lastName}`,
+                    email: data.email,
+                    phone: data.phone,
+                    country: data.country,
+                    password: btoa(data.password),
+                    role: 'customer'
+                });
+                
+                DB.set('amwaj_sessions', [{ id: Utils.generateId('SESS'), userId: user.id, role: user.role, createdAt: new Date().toISOString() }]);
+                UI.createLog(user.id, 'Signup', 'New customer account created');
+                UI.createNotification(user.id, 'Welcome to AMWAJ', 'Your journey begins with confidence. Explore our stays and services.');
+                return user;
+            },
+            logout: () => {
+                const user = Auth.getCurrentUser();
+                if (user) UI.createLog(user.id, 'Logout', 'User logged out');
+                DB.set('amwaj_sessions', []);
+                window.location.hash = '#/auth';
+            }
+        };
+
+        window.AppActions = {
+            // Auth Actions
+            handleLogin: (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const btn = form.querySelector('button[type="submit"]');
+                btn.innerHTML = '<div class="spinner border-t-white mx-auto"></div>';
+                
+                setTimeout(() => {
+                    try {
+                        const user = Auth.login(form.email.value, form.password.value);
+                        UI.showToast(`Welcome back, ${user.name}`, 'success');
+                        window.location.hash = user.role === 'admin' ? '#/admin' : '#/dashboard';
+                    } catch (err) {
+                        UI.showToast(err.message, 'error');
+                        btn.innerHTML = 'Sign In';
+                    }
+                }, 800); // Simulate network
+            },
+            handleSignup: (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const btn = form.querySelector('button[type="submit"]');
+                btn.innerHTML = '<div class="spinner border-t-white mx-auto"></div>';
+                
+                setTimeout(() => {
+                    try {
+                        const data = Object.fromEntries(new FormData(form));
+                        const user = Auth.signup(data);
+                        UI.showToast('Account created successfully', 'success');
+                        window.location.hash = '#/dashboard';
+                    } catch (err) {
+                        UI.showToast(err.message, 'error');
+                        btn.innerHTML = 'Create Account';
+                    }
+                }, 800);
+            },
+            toggleAuthView: (view) => {
+                document.getElementById('auth-login').classList.toggle('hidden', view !== 'login');
+                document.getElementById('auth-signup').classList.toggle('hidden', view !== 'signup');
+            },
+            
+            // App Shell Actions
+            toggleSidebar: () => {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.toggle('-translate-x-full');
+            },
+            toggleTheme: () => {
+                document.documentElement.classList.toggle('dark');
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('amwaj_theme', isDark ? 'dark' : 'light');
+            },
+
+            // Customer Actions
+            saveProperty: (propId) => {
+                const user = Auth.getCurrentUser();
+                const existing = DB.findOne('amwaj_saved_properties', s => s.userId === user.id && s.propertyId === propId);
+                if (existing) {
+                    DB.remove('amwaj_saved_properties', existing.id);
+                    UI.showToast('Removed from saved stays');
+                } else {
+                    DB.insert('amwaj_saved_properties', { id: Utils.generateId('SAV'), userId: user.id, propertyId: propId });
+                    UI.showToast('Property saved successfully', 'success');
+                }
+                Router.navigate(); // Refresh view
+            },
+            openBookingModal: (propId) => {
+                const prop = DB.findOne('amwaj_properties', p => p.id === propId);
+                const html = `
+                    <form onsubmit="AppActions.submitBooking(event, '${propId}')" class="space-y-4">
+                        <div class="mb-4 pb-4 border-b border-brand-border dark:border-gray-700">
+                            <h4 class="font-serif text-xl">${Utils.escapeHTML(prop.name)}</h4>
+                            <p class="text-sm text-brand-muted">${prop.location || prop.city}, ${prop.country}</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><label class="block text-sm font-medium mb-1">Check-in</label><input type="date" name="checkIn" required class="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700"></div>
+                            <div><label class="block text-sm font-medium mb-1">Check-out</label><input type="date" name="checkOut" required class="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700"></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><label class="block text-sm font-medium mb-1">Guests</label><input type="number" name="guests" min="1" max="${prop.guests}" required class="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700"></div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Purpose</label>
+                                <select name="purpose" required class="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700">
+                                    <option value="Tourism">Tourism</option>
+                                    <option value="Medical">Medical</option>
+                                    <option value="Study">Study</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div><label class="block text-sm font-medium mb-1">Special Requests</label><textarea name="notes" rows="3" class="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700"></textarea></div>
+                        <div class="flex justify-end gap-3 pt-4">
+                            <button type="button" onclick="UI.closeModal()" class="px-4 py-2 text-brand-muted hover:text-brand-dark dark:hover:text-white">Cancel</button>
+                            <button type="submit" class="bg-brand-primary text-white px-6 py-2 rounded-lg hover:bg-brand-dark transition-colors">Request Booking</button>
+                        </div>
+                    </form>
+                `;
+                UI.openModal('Request Booking', html);
+            },
+            submitBooking: (e, propId) => {
+                e.preventDefault();
+                const form = e.target;
+                const user = Auth.getCurrentUser();
+                const prop = DB.findOne('amwaj_properties', p => p.id === propId);
+                
+                // Calculate rough price based on days
+                const d1 = new Date(form.checkIn.value);
+                const d2 = new Date(form.checkOut.value);
+                const diffTime = Math.abs(d2 - d1);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                const amount = diffDays > 0 ? diffDays * prop.price : prop.price;
+
+                const bkg = DB.insert('amwaj_bookings', {
+                    id: Utils.generateId('AMW-BKG'),
+                    userId: user.id,
+                    propertyId: propId,
+                    checkIn: form.checkIn.value,
+                    checkOut: form.checkOut.value,
+                    guests: form.guests.value,
+                    purpose: form.purpose.value,
+                    notes: form.notes.value,
+                    status: 'pending',
+                    paymentStatus: 'pending',
+                    totalAmount: amount
+                });
+
+                UI.createLog(user.id, 'Booking Requested', `Requested ${bkg.id} for ${prop.name}`);
+                UI.createNotification(user.id, 'Booking Requested', `Your request for ${prop.name} has been received and is pending review.`);
+                // Notify admin pseudo
+                UI.createNotification('USR-ADMIN', 'New Booking Request', `Customer requested ${bkg.id}`);
+                
+                UI.closeModal();
+                UI.showToast('Booking request submitted successfully', 'success');
+                window.location.hash = '#/bookings';
+            },
+            openPaymentModal: (bkgId) => {
+                const bkg = DB.findOne('amwaj_bookings', b => b.id === bkgId);
+                const html = `
+                    <div class="text-center mb-6">
+                        <div class="text-sm text-brand-muted uppercase tracking-wider mb-1">Prototype Payment Environment</div>
+                        <div class="text-3xl font-serif text-brand-dark dark:text-white mb-2">${Utils.formatCurrency(bkg.totalAmount)}</div>
+                        <p class="text-sm">For Booking: ${bkg.id}</p>
+                    </div>
+                    <form onsubmit="AppActions.submitPayment(event, '${bkgId}')" class="space-y-4">
+                        <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 space-y-4">
+                            <div><label class="block text-xs font-medium mb-1">Card Number (Simulation)</label><input type="text" value="**** **** **** 4242" disabled class="w-full p-2 bg-white dark:bg-gray-700 border rounded opacity-70"></div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label class="block text-xs font-medium mb-1">Expiry</label><input type="text" value="12/28" disabled class="w-full p-2 bg-white dark:bg-gray-700 border rounded opacity-70"></div>
+                                <div><label class="block text-xs font-medium mb-1">CVC</label><input type="text" value="***" disabled class="w-full p-2 bg-white dark:bg-gray-700 border rounded opacity-70"></div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 pt-4">
+                            <button type="button" onclick="UI.closeModal()" class="px-4 py-2 text-brand-muted hover:text-brand-dark dark:hover:text-white">Cancel</button>
+                            <button type="submit" id="pay-btn" class="bg-brand-primary text-white px-6 py-2.5 rounded-lg hover:bg-brand-dark transition-colors font-medium w-full sm:w-auto">Confirm Payment</button>
+                        </div>
+                    </form>
+                `;
+                UI.openModal('Complete Payment', html);
+            },
+            submitPayment: (e, bkgId) => {
+                e.preventDefault();
+                const btn = document.getElementById('pay-btn');
+                btn.innerHTML = '<div class="spinner border-t-white mx-auto"></div>';
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    const bkg = DB.findOne('amwaj_bookings', b => b.id === bkgId);
+                    
+                    const pay = DB.insert('amwaj_payments', {
+                        id: Utils.generateId('AMW-PAY'),
+                        bookingId: bkgId,
+                        userId: bkg.userId,
+                        amount: bkg.totalAmount,
+                        type: 'full',
+                        status: 'successful'
+                    });
+
+                    DB.update('amwaj_bookings', bkgId, { status: 'confirmed', paymentStatus: 'paid' });
+                    
+                    UI.createLog(bkg.userId, 'Payment Successful', `Paid ${Utils.formatCurrency(bkg.totalAmount)} for ${bkgId}`);
+                    UI.createNotification(bkg.userId, 'Payment Received', `Your payment for booking ${bkgId} was successful.`);
+                    UI.createNotification('USR-ADMIN', 'Payment Received', `Payment received for booking ${bkgId}`);
+
+                    UI.closeModal();
+                    UI.showToast('Payment successful!', 'success');
+                    Router.navigate();
+                }, 1500);
+            },
+            printReceipt: (payId) => {
+                const pay = DB.findOne('amwaj_payments', p => p.id === payId);
+                const bkg = DB.findOne('amwaj_bookings', b => b.id === pay.bookingId);
+                const prop = DB.findOne('amwaj_properties', p => p.id === bkg.propertyId);
+                const user = DB.findOne('amwaj_users', u => u.id === pay.userId);
+
+                const html = `
+                    <div id="print-area" class="bg-white text-black p-10 min-h-screen">
+                        <div class="flex justify-between items-start mb-12 border-b pb-8">
+                            <div>
+                                <h1 class="text-3xl font-serif font-bold tracking-wider mb-2">AMWAJ.</h1>
+                                <p class="text-gray-500 text-sm">Premium Travel Management</p>
+                            </div>
+                            <div class="text-right">
+                                <h2 class="text-xl font-medium mb-1">RECEIPT</h2>
+                                <p class="text-sm text-gray-500">Date: ${Utils.formatDateTime(pay.createdAt)}</p>
+                                <p class="text-sm text-gray-500">Ref: ${pay.id}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-12 mb-12">
+                            <div>
+                                <h3 class="text-sm font-bold uppercase text-gray-400 mb-2">Billed To</h3>
+                                <p class="font-medium">${user.name}</p>
+                                <p class="text-sm text-gray-600">${user.email}</p>
+                                <p class="text-sm text-gray-600">${user.phone}</p>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold uppercase text-gray-400 mb-2">Booking Details</h3>
+                                <p class="font-medium">${prop.name}</p>
+                                <p class="text-sm text-gray-600">Ref: ${bkg.id}</p>
+                                <p class="text-sm text-gray-600">${Utils.formatDate(bkg.checkIn)} - ${Utils.formatDate(bkg.checkOut)}</p>
+                            </div>
+                        </div>
+                        <table class="w-full mb-12 border-collapse">
+                            <thead>
+                                <tr class="border-b-2 border-black text-left">
+                                    <th class="py-3 font-bold">Description</th>
+                                    <th class="py-3 font-bold text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-4">Accommodation (${bkg.guests} guests)</td>
+                                    <td class="py-4 text-right">${Utils.formatCurrency(pay.amount)}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="text-xl font-bold">
+                                    <td class="pt-6">Total Paid</td>
+                                    <td class="pt-6 text-right">${Utils.formatCurrency(pay.amount)}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="text-center text-sm text-gray-500 mt-24">
+                            <p>Thank you for traveling with AMWAJ.</p>
+                            <p>This is a system generated prototype receipt.</p>
+                        </div>
+                    </div>
+                `;
+                
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`<html><head><title>Receipt ${pay.id}</title><script src="https://cdn.tailwindcss.com"><\/script></head><body>${html}</body></html>`);
+                printWindow.document.close();
+                setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
+            },
+            submitVisaApp: async (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const user = Auth.getCurrentUser();
+                
+                try {
+                    const passportFile = form.passport.files[0];
+                    if (!passportFile) throw new Error("Passport document required");
+                    if (passportFile.size > 2 * 1024 * 1024) throw new Error("File too large. Max 2MB.");
+                    
+                    const base64 = await Utils.fileToBase64(passportFile);
+
+                    const visa = DB.insert('amwaj_visa_applications', {
+                        id: Utils.generateId('AMW-VISA'),
+                        userId: user.id,
+                        destination: form.destination.value,
+                        visaType: form.visaType.value,
+                        applicantName: form.applicantName.value,
+                        passportNumber: form.passportNumber.value,
+                        status: 'submitted',
+                        documents: [{ name: passportFile.name, type: 'passport', data: base64 }]
+                    });
+
+                    UI.createLog(user.id, 'Visa Applied', `Applied for ${visa.destination} ${visa.visaType} visa`);
+                    UI.createNotification(user.id, 'Visa Application Submitted', `Application ${visa.id} received and is under review.`);
+                    UI.createNotification('USR-ADMIN', 'New Visa Application', `New application ${visa.id} submitted.`);
+                    
+                    UI.showToast('Visa application submitted', 'success');
+                    window.location.hash = '#/visa';
+                } catch (err) {
+                    UI.showToast(err.message, 'error');
+                }
+            },
+
+            // Admin Actions
+            adminUpdateBooking: (bkgId, newStatus) => {
+                const bkg = DB.findOne('amwaj_bookings', b => b.id === bkgId);
+                const updates = { status: newStatus };
+                if (newStatus === 'payment_required') updates.paymentStatus = 'pending';
+                
+                DB.update('amwaj_bookings', bkgId, updates);
+                
+                let notifMsg = `Your booking ${bkgId} status changed to ${Utils.formatStatus(newStatus)}.`;
+                if(newStatus === 'payment_required') notifMsg = `Your booking ${bkgId} has been confirmed. Please proceed to payment.`;
+                
+                UI.createNotification(bkg.userId, 'Booking Update', notifMsg);
+                UI.showToast(`Booking marked as ${newStatus}`, 'success');
+                Router.navigate();
+            },
+            adminUpdateVisa: (visaId, newStatus) => {
+                const visa = DB.findOne('amwaj_visa_applications', v => v.id === visaId);
+                DB.update('amwaj_visa_applications', visaId, { status: newStatus });
+                UI.createNotification(visa.userId, 'Visa Update', `Your visa application ${visaId} is now: ${Utils.formatStatus(newStatus)}.`);
+                UI.showToast(`Visa marked as ${newStatus}`, 'success');
+                Router.navigate();
+            },
+            adminResetData: () => {
+                if(confirm('Are you sure? This will remove all demo data and re-seed the initial state.')) {
+                    localStorage.removeItem('amwaj_seeded');
+                    SeedData();
+                    UI.showToast('Data reset complete', 'success');
+                    Router.navigate();
+                }
+            },
+            markNotifsRead: () => {
+                const user = Auth.getCurrentUser();
+                let notifs = DB.get('amwaj_notifications');
+                notifs = notifs.map(n => n.userId === user.id ? {...n, read: true} : n);
+                DB.set('amwaj_notifications', notifs);
+                Router.navigate();
+            }
+        };
+
+        const Components = {
+            renderSidebar: (user, currentPath) => {
+                const isCustomer = user.role === 'customer';
+                const menu = isCustomer ? [
+                    { path: '#/dashboard', icon: 'layout-dashboard', label: 'Overview' },
+                    { path: '#/stays', icon: 'building', label: 'Find a Stay' },
+                    { path: '#/bookings', icon: 'calendar-check', label: 'My Bookings' },
+                    { path: '#/visa', icon: 'passport', label: 'Visa Services' },
+                    { path: '#/saved', icon: 'heart', label: 'Saved Stays' },
+                    { path: '#/payments', icon: 'credit-card', label: 'Payments' },
+                ] : [
+                    { path: '#/admin', icon: 'bar-chart-2', label: 'Overview' },
+                    { path: '#/admin/bookings', icon: 'calendar', label: 'Bookings' },
+                    { path: '#/admin/properties', icon: 'home', label: 'Properties' },
+                    { path: '#/admin/visa', icon: 'file-text', label: 'Visa Apps' },
+                    { path: '#/admin/customers', icon: 'users', label: 'Customers' },
+                    { path: '#/admin/payments', icon: 'dollar-sign', label: 'Payments' },
+                    { path: '#/admin/settings', icon: 'settings', label: 'Settings' }
+                ];
+
+                return `
+                    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-brand-primary text-white transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col">
+                        <div class="h-16 flex items-center px-6 border-b border-white/10 shrink-0 justify-between">
+                            <span class="font-serif text-2xl font-bold tracking-wider">AMWAJ<span class="text-brand-gold">.</span></span>
+                            <button class="lg:hidden text-white/70 hover:text-white" onclick="AppActions.toggleSidebar()"><i data-lucide="x" class="w-5 h-5"></i></button>
+                        </div>
+                        
+                        <div class="p-6 pb-2 shrink-0">
+                            <div class="flex items-center gap-3 bg-white/5 rounded-xl p-3 border border-white/10">
+                                <div class="w-10 h-10 rounded-full bg-brand-gold text-brand-dark flex items-center justify-center font-bold text-lg">
+                                    ${user.name.charAt(0)}
+                                </div>
+                                <div class="overflow-hidden">
+                                    <div class="text-sm font-medium truncate">${user.name}</div>
+                                    <div class="text-xs text-white/50 truncate capitalize">${user.role}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+                            ${menu.map(item => `
+                                <a href="${item.path}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${currentPath === item.path ? 'bg-brand-gold text-brand-dark' : 'text-white/70 hover:text-white hover:bg-white/10'}">
+                                    <i data-lucide="${item.icon}" class="w-5 h-5"></i>
+                                    ${item.label}
+                                </a>
+                            `).join('')}
+                        </nav>
+                        
+                        <div class="p-4 border-t border-white/10 shrink-0">
+                            <button onclick="Auth.logout()" class="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-colors">
+                                <i data-lucide="log-out" class="w-5 h-5"></i>
+                                Sign Out
+                            </button>
+                        </div>
+                    </aside>
+                `;
+            },
+            renderHeader: (user, title) => {
+                const unreadNotifs = DB.findMany('amwaj_notifications', n => n.userId === user.id && !n.read).length;
+                return `
+                    <header class="h-16 bg-white dark:bg-gray-900 border-b border-brand-border dark:border-gray-800 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-30">
+                        <div class="flex items-center gap-4">
+                            <button class="lg:hidden text-brand-dark dark:text-white" onclick="AppActions.toggleSidebar()"><i data-lucide="menu" class="w-6 h-6"></i></button>
+                            <h1 class="text-xl font-serif font-medium hidden sm:block">${title}</h1>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="text-xs font-medium px-2 py-1 bg-brand-sand dark:bg-gray-800 rounded text-brand-muted border border-brand-border dark:border-gray-700 hidden sm:block">
+                                Prototype Environment
+                            </div>
+                            <button onclick="AppActions.toggleTheme()" class="p-2 text-brand-muted hover:text-brand-dark dark:hover:text-white transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+                                <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                                <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                            </button>
+                            <div class="relative group cursor-pointer" onclick="AppActions.markNotifsRead()">
+                                <div class="p-2 text-brand-muted hover:text-brand-dark dark:hover:text-white transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+                                    <i data-lucide="bell" class="w-5 h-5"></i>
+                                    ${unreadNotifs > 0 ? `<span class="absolute top-1 right-1 w-2.5 h-2.5 bg-error rounded-full border-2 border-white dark:border-gray-900"></span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                `;
+            },
+            renderEmptyState: (title, message, icon='inbox', actionHtml='') => `
+                <div class="flex flex-col items-center justify-center p-12 text-center bg-white dark:bg-gray-900 rounded-2xl border border-brand-border dark:border-gray-800 border-dashed">
+                    <div class="w-16 h-16 bg-brand-sand dark:bg-gray-800 rounded-full flex items-center justify-center text-brand-muted mb-4">
+                        <i data-lucide="${icon}" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-brand-dark dark:text-white mb-2">${title}</h3>
+                    <p class="text-sm text-brand-muted mb-6 max-w-sm">${message}</p>
+                    ${actionHtml}
+                </div>
+            `,
+            renderStatCard: (title, value, icon, trend='') => `
+                <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-brand-border dark:border-gray-800 shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-brand-sand dark:bg-gray-800 rounded-xl flex items-center justify-center text-brand-primary dark:text-brand-gold">
+                            <i data-lucide="${icon}" class="w-6 h-6"></i>
+                        </div>
+                        ${trend ? `<span class="text-xs font-medium bg-success/10 text-success px-2 py-1 rounded-full">${trend}</span>` : ''}
+                    </div>
+                    <div class="text-sm text-brand-muted mb-1">${title}</div>
+                    <div class="text-3xl font-serif text-brand-dark dark:text-white">${value}</div>
+                </div>
+            `
+        };
+
+        const CustomerViews = {
+            dashboard: (user) => {
+                const bookings = DB.findMany('amwaj_bookings', b => b.userId === user.id);
+                const activeBookings = bookings.filter(b => !['completed', 'cancelled'].includes(b.status));
+                const visas = DB.findMany('amwaj_visa_applications', v => v.userId === user.id);
+                const saved = DB.findMany('amwaj_saved_properties', s => s.userId === user.id);
+                
+                const recentNotifs = DB.findMany('amwaj_notifications', n => n.userId === user.id).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5);
+
+                return `
+                    <div class="space-y-6">
+                        <div class="bg-brand-primary rounded-3xl p-8 text-white relative overflow-hidden shadow-premium">
+                            <div class="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1542314831-c6a420325142?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center"></div>
+                            <div class="relative z-10">
+                                <h2 class="font-serif text-3xl mb-2">Good ${new Date().getHours() < 12 ? 'morning' : 'afternoon'}, ${user.name.split(' ')[0]}</h2>
+                                <p class="text-white/80 max-w-md font-light">Your journey begins with confidence. Manage your stays and applications here.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            ${Components.renderStatCard('Active Bookings', activeBookings.length, 'calendar-check')}
+                            ${Components.renderStatCard('Visa Applications', visas.length, 'passport')}
+                            ${Components.renderStatCard('Saved Stays', saved.length, 'heart')}
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="bg-white dark:bg-gray-900 rounded-2xl border border-brand-border dark:border-gray-800 p-6">
+                                <h3 class="font-serif text-xl mb-4">Recent Notifications</h3>
+                                ${recentNotifs.length ? `
+                                    <div class="space-y-4">
+                                        ${recentNotifs.map(n => `
+                                            <div class="flex gap-3 pb-3 border-b border-brand-border dark:border-gray-800 last:border-0 last:pb-0">
+                                                <div class="w-2 h-2 mt-2 rounded-full ${n.read ? 'bg-gray-300' : 'bg-brand-gold'} shrink-0"></div>
+                                                <div>
+                                                    <div class="text-sm font-medium dark:text-white">${n.title}</div>
+                                                    <div class="text-xs text-brand-muted">${n.message}</div>
+                                                    <div class="text-xs text-gray-400 mt-1">${Utils.formatDate(n.createdAt)}</div>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : '<p class="text-sm text-brand-muted">No recent notifications.</p>'}
+                            </div>
+                            
+                            <div class="bg-white dark:bg-gray-900 rounded-2xl border border-brand-border dark:border-gray-800 p-6">
+                                <h3 class="font-serif text-xl mb-4">Next Journey</h3>
+                                ${activeBookings.length ? (() => {
+                                    const next = activeBookings.sort((a,b) => new Date(a.checkIn) - new Date(b.checkIn))[0];
+                                    const prop = DB.findOne('amwaj_properties', p => p.id === next.propertyId);
+                                    return `
+                                        <div class="flex items-center gap-4 mb-4">
+                                            <img src="${prop.image}" class="w-20 h-20 rounded-xl object-cover">
+                                            <div>
+                                                <div class="font-medium dark:text-white line-clamp-1">${prop.name}</div>
+                                                <div class="text-xs text-brand-muted mb-1">${prop.city}, ${prop.country}</div>
+                                                <span class="text-xs px-2 py-1 rounded-full ${Utils.getStatusColor(next.status)}">${Utils.formatStatus(next.status)}</span>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 flex justify-between text-sm">
+                                            <div><div class="text-brand-muted text-xs">Check-in</div><div class="font-medium">${Utils.formatDate(next.checkIn)}</div></div>
+                                            <div class="text-right"><div class="text-brand-muted text-xs">Ref</div><div class="font-medium text-brand-gold">${next.id}</div></div>
+                                        </div>
+                                        <a href="#/bookings" class="mt-4 block text-center text-sm font-medium text-brand-primary dark:text-brand-gold">View Details</a>
+                                    `;
+                                })() : '<p class="text-sm text-brand-muted">No upcoming journeys planned.</p>'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+            stays: (user) => {
+                const props = DB.get('amwaj_properties');
+                const saved = DB.findMany('amwaj_saved_properties', s => s.userId === user.id).map(s => s.propertyId);
+                
+                return `
+                    <div class="space-y-6">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <h2 class="font-serif text-2xl">Find a Stay</h2>
+                            <div class="flex gap-2 w-full sm:w-auto">
+                                <input type="text" placeholder="Search destination..." class="w-full sm:w-64 px-4 py-2 bg-white dark:bg-gray-900 border border-brand-border dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:border-brand-gold">
+                                <button class="p-2 bg-white dark:bg-gray-900 border border-brand-border dark:border-gray-700 rounded-xl text-brand-dark dark:text-white"><i data-lucide="sliders-horizontal" class="w-5 h-5"></i></button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${props.map(p => `
+                                <div class="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-brand-border dark:border-gray-800 shadow-sm hover:shadow-premium transition-all group">
+                                    <div class="relative aspect-video overflow-hidden">
+                                        <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                        <button onclick="AppActions.saveProperty('${p.id}')" class="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-brand-dark shadow-sm hover:text-error transition-colors">
+                                            <i data-lucide="heart" class="w-4 h-4 ${saved.includes(p.id) ? 'fill-error text-error' : ''}"></i>
+                                        </button>
+                                        ${p.verified ? `<div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase text-brand-dark shadow-sm flex items-center gap-1"><i data-lucide="badge-check" class="w-3 h-3 text-brand-gold"></i> Verified</div>` : ''}
+                                    </div>
+                                    <div class="p-5">
+                                        <div class="flex justify-between items-start mb-1">
+                                            <h3 class="font-serif text-lg font-medium dark:text-white line-clamp-1">${p.name}</h3>
+                                        </div>
+                                        <p class="text-sm text-brand-muted mb-4 flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> ${p.city}, ${p.country}</p>
+                                        <div class="flex gap-4 text-xs text-brand-muted mb-5 border-t border-brand-border dark:border-gray-800 pt-3">
+                                            <span class="flex items-center gap-1"><i data-lucide="bed" class="w-3 h-3"></i> ${p.bedrooms} Beds</span>
+                                            <span class="flex items-center gap-1"><i data-lucide="users" class="w-3 h-3"></i> ${p.guests} Guests</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <div class="font-medium text-brand-dark dark:text-white">${Utils.formatCurrency(p.price)}<span class="text-xs text-brand-muted font-normal">/night</span></div>
+                                            <button onclick="AppActions.openBookingModal('${p.id}')" class="bg-brand-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-dark transition-colors">Book Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            },
+            bookings: (user) => {
+                const bookings = DB.findMany('amwaj_bookings', b => b.userId === user.id).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+                
+                if(!bookings.length) return Components.renderEmptyState('No Bookings Yet', 'When you request to book a property, it will appear here.', 'calendar-x', '<a href="#/stays" class="mt-4 px-6 py-2 bg-brand-primary text-white rounded-lg">Explore Stays</a>');
+
+                return `
+                    <div class="space-y-6">
+                        <h2 class="font-serif text-2xl">My Bookings</h2>
+                        <div class="space-y-4">
+                            ${bookings.map(b => {
+                                const prop = DB.findOne('amwaj_properties', p => p.id === b.propertyId);
+                                const isPaymentReq = b.status === 'payment_required';
+                                return `
+                                    <div class="bg-white dark:bg-gray-900 border border-brand-border dark:border-gray-800 rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row gap-6 items-start md:items-center">
+                                        <img src="${prop.image}" class="w-full md:w-48 h-32 object-cover rounded-xl shrink-0">
+                                        <div class="flex-1 w-full">
+                                            <div class="flex flex-col sm:flex-row justify-between sm:items-start gap-2 mb-2">
+                                                <div>
+                                                    <div class="text-xs text-brand-muted mb-1">Ref: ${b.id}</div>
+                                                    <h3 class="font-serif text-xl font-medium dark:text-white">${prop.name}</h3>
+                                                    <div class="text-sm text-brand-muted">${prop.city}, ${prop.country}</div>
+                                                </div>
+                                                <span class="inline-flex text-xs font-medium px-2.5 py-1 rounded-full whitespace-nowrap ${Utils.getStatusColor(b.status)}">${Utils.formatStatus(b.status)}</span>
+                                            </div>
+                                            
+                                            <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                                                <div><span class="text-brand-muted block text-xs">Dates</span><span class="font-medium">${Utils.formatDate(b.checkIn)} - ${Utils.formatDate(b.checkOut)}</span></div>
+                                                <div><span class="text-brand-muted block text-xs">Guests</span><span class="font-medium">${b.guests}</span></div>
+                                                <div><span class="text-brand-muted block text-xs">Total</span><span class="font-medium text-brand-gold">${Utils.formatCurrency(b.totalAmount)}</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="w-full md:w-auto flex flex-col gap-2 shrink-0">
+                                            ${isPaymentReq ? `<button onclick="AppActions.openPaymentModal('${b.id}')" class="w-full md:w-auto bg-brand-gold text-brand-dark px-6 py-2 rounded-lg font-medium hover:bg-yellow-600 transition-colors shadow-sm">Pay Now</button>` : ''}
+                                            <button class="w-full md:w-auto border border-brand-border dark:border-gray-700 px-6 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">View Details</button>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            },
+            visa: (user) => {
+                const visas = DB.findMany('amwaj_visa_applications', v => v.userId === user.id);
+                return `
+                    <div class="space-y-8">
+                        <div class="flex justify-between items-center">
+                            <h2 class="font-serif text-2xl">Visa Services</h2>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <!-- New Application Form -->
+                            <div class="lg:col-span-1 bg-white dark:bg-gray-900 border border-brand-border dark:border-gray-800 rounded-2xl p-6 h-fit">
+                                <h3 class="font-medium text-lg mb-4">Start Application</h3>
+                                <form onsubmit="AppActions.submitVisaApp(event)" class="space-y-4">
+                                    <div>
+                                        <label class="block text-xs font-medium mb-1">Destination</label>
+                                        <select name="destination" required class="w-full p-2 border rounded-lg text-sm dark:bg-gray-800 dark:border-gray-700">
+                                            <option value="Egypt">Egypt</option>
+                                            <option value="Saudi Arabia">Saudi Arabia</option>
+                                            <option value="UAE">UAE</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium mb-1">Visa Type</label>
+                                        <select name="visaType" required class="w-full p-2 border rounded-lg text-sm dark:bg-gray-800 dark:border-gray-700">
+                                            <option value="Tourist">Tourist</option>
+                                            <option value="Business">Business</option>
+                                            <option value="Medical">Medical</option>
+                                            <option value="Study">Study</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium mb-1">Full Name (as on Passport)</label>
+                                        <input type="text" name="applicantName" required class="w-full p-2 border rounded-lg text-sm dark:bg-gray-800 dark:border-gray-700">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium mb-1">Passport Number</label>
+                                        <input type="text" name="passportNumber" required class="w-full p-2 border rounded-lg text-sm dark:bg-gray-800 dark:border-gray-700">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium mb-1">Upload Passport (Image/PDF)</label>
+                                        <input type="file" name="passport" accept="image/*,.pdf" required class="w-full p-2 border rounded-lg text-sm dark:bg-gray-800 dark:border-gray-700">
+                                        <p class="text-[10px] text-gray-400 mt-1">Max 2MB. Local prototype limits apply.</p>
+                                    </div>
+                                    <button type="submit" class="w-full bg-brand-primary text-white py-2.5 rounded-lg text-sm font-medium mt-4">Submit Application</button>
+                                </form>
+                            </div>
+                            
+                            <!-- Application History -->
+                            <div class="lg:col-span-2">
+                                <h3 class="font-medium text-lg mb-4">Your Applications</h3>
+                                ${visas.length ? `
+                                    <div class="space-y-4">
+                                        ${visas.map(v => `
+                                            <div class="bg-white dark:bg-gray-900 border border-brand-border dark:border-gray-800 rounded-2xl p-5 flex flex-col sm:flex-row justify-between gap-4 sm:items-center">
+                                                <div>
+                                                    <div class="flex items-center gap-3 mb-1">
+                                                        <h4 class="font-medium dark:text-white">${v.destination} — ${v.visaType}</h4>
+                                                        <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${Utils.getStatusColor(v.status)}">${Utils.formatStatus(v.status)}</span>
+                                                    </div>
+                                                    <p class="text-xs text-brand-muted">Ref: ${v.id} • Applied: ${Utils.formatDate(v.createdAt)}</p>
+                                                    <p class="text-xs text-gray-500 mt-1">Applicant: ${v.applicantName} (${v.passportNumber})</p>
+                                                </div>
+                                                <button class="text-sm font-medium text-brand-primary dark:text-brand-gold border border-brand-primary/20 dark:border-brand-gold/20 px-4 py-2 rounded-lg">View Details</button>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : Components.renderEmptyState('No Applications', 'You have not submitted any visa applications yet.', 'file-search')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+            payments: (user) => {
+                const payments = DB.findMany('amwaj_payments', p => p.userId === user.id).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+                
+                if(!payments.length) return Components.renderEmptyState('No Payments', 'Your payment history will appear here.', 'receipt');
+
+                return `
+                    <div class="space-y-6">
+                        <h2 class="font-serif text-2xl">Payment History</h2>
+                        <div class="bg-white dark:bg-gray-900 border border-brand-border dark:border-gray-800 rounded-2xl overflow-hidden overflow-x-auto">
+                            <table class="w-full text-left text-sm whitespace-nowrap">
+                                <thead class="bg-gray-50 dark:bg-gray-800 text-brand-muted">
+                                    <tr>
+                                        <th class="px-6 py-4 font-medium">Transaction ID</th>
+                                        <th class="px-6 py-4 font-medium">Date</th>
+                                        <th class="px-6 py-4 font-medium">Booking Ref</th>
+                                        <th class="px-6 py-4 font-medium">Amount</th>
+                                        <th class="px-6 py-4 font-medium">Status</th>
+                                        <th class="px-6 py-4 font-medium"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-brand-border dark:divide-gray-800">
+                                    ${payments.map(p => `
+                                        <tr>
+                                            <td class="px-6 py-4 font-medium">${p.id}</td>
+                                            <td class="px-6 py-4 text-brand-muted">${Utils.formatDate(p.createdAt)}</td>
+                                            <td class="px-6 py-4">${p.bookingId}</td>
+                                            <td class="px-6 py-4 font-medium text-brand-dark dark:text-white">${Utils.formatCurrency(p.amount)}</td>
+                                            <td class="px-6 py-4"><span class="text-xs font-medium px-2 py-1 rounded-full ${Utils.getStatusColor(p.status)}">${Utils.formatStatus(p.status)}</span></td>
+                                            <td class="px-6 py-4 text-right">
+                                                <button onclick="AppActions.printReceipt('${p.id}')" class="text-brand-primary dark:text-brand-gold hover:underline font-medium text-xs"><i data-lucide="printer" class="w-4 h-4 inline mr-1"></i> Receipt</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+        };
+
+        const AdminViews = {
+            dashboard: () => {
+                const users = DB.get('amwaj_users').filter(u => u.role === 'customer');
+                const bookings = DB.get('amwaj_bookings');
+                const visas = DB.get('amwaj_visa_applications');
+                const payments = DB.get('amwaj_payments');
+                const revenue = payments.reduce((sum, p) => sum + p.amount, 0);
+
+                const recentLogs = DB.get('amwaj_activity_log').sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5);
+
+                return `
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <h2 class="font-serif text-3xl mb-1">Admin Overview</h2>
+                                <p class="text-brand-muted text-sm">System statistics and recent activity.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            ${Components.renderStatCard('Total Revenue', Utils.formatCurrency(revenue), 'dollar-sign')}
+                            ${Components.renderStatCard('Total Bookings', bookings.length, 'calendar')}
+                            ${Components.renderStatCard('Visa Applications', visas.length, 'passport')}
+                            ${Components.renderStatCard('Registered Customers', users.length, 'users')}
+                        </div>
+
+                        <div class="bg-white dark:bg-gray-900 border border-brand-border dark:border-gray-800 rounded-2xl p-6">
+                            <h3 class="font-medium mb-4">System Activity Log</h3>
+                            <div class="space-y-4">
+                                ${recentLogs.map(log => {
+                                    const u = DB.findOne('amwaj_users', user => user.id === log.userId) || {name: 'System'};
+                                    return `
+                                    <div class="flex gap-4 text-sm items-start">
+                                        <div class="w-2 h-2 mt-1.5 rounded-full bg-brand-gold shrink-0"></div>
+                                        <div>
+                                            <span class="font-medium">${u.name}</span> <span class="text-brand-muted">— ${log.action}</span>
+                                            <div class="text-gray-500 text-xs mt-0.5">${log.details}</div>
+                                            <div class="text-[10px] text-gray-400 mt-0.5">${Utils.formatDateTime(log.createdAt)}</div>
+                                        </div>
+                                    </div>
+                                `}).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+            bookings: () => {
+                const bookings = DB.get('amwaj_bookings').sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+                
+                return `
+                    <div class="space-y-6">
+                        <h2 class="font-serif text-2xl">Manage Bookings</h2>
+                        <div class="bg-white dark:bg-gray-900 border border-brand-border dark:border-gray-800 rounded-2xl overflow-hidden overflow-x-auto">
+                            <table class="w-full text-left text-sm whitespace-nowrap">
+                                <thead class="bg-gray-50 dark:bg-gray-800 text-brand-muted">
+                                    <tr>
+                                        <th class="px-6 py-4 font-medium">Ref / Date</th>
+                                        <th class="px-6 py-4 font-medium">Customer</th>
+                                        <th class="px-6 py-4 font-medium">Property</th>
+                                        <th class="px-6 py-4 font-medium">Dates</th>
+                                        <th class="px-6 py-4 font-medium">Amount</th>
+                                        <th class="px-6 py-4 font-medium">Status</th>
+                                        <th class="px-6 py-4 font-medium text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-brand-border dark:divide-gray-800">
+                                    ${bookings.map(b => {
+                                        const user = DB.findOne('amwaj_users', u => u.id === b.userId);
+                                        const prop = DB.findOne('amwaj_properties', p => p.id === b.propertyId);
+                                        return `
+                                        <tr>
+                                            <td class="px-6 py-4">
+                                                <div class="font-medium">${b.id}</div>
+                                                <div class="text-xs text-brand-muted">${Utils.formatDate(b.createdAt)}</div>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <div>${user.name}</div>
+                                                <div class="text-xs text-brand-muted">${user.email}</div>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <div class="w-48 truncate">${prop.name}</div>
+                                                <div class="text-xs text-brand-muted">${prop.city}</div>
+                                            </td>
+                                            <td class="px-6 py-4">${Utils.formatDate(b.checkIn)} <br> ${Utils.formatDate(b.checkOut)}</td>
+                                            <td class="px-6 py-4 font-medium">${Utils.formatCurrency(b.totalAmount)}</td>
+                                            <td class="px-6 py-4"><span class="text-[10px] uppercase tracking-wide font-bold px-2 py-1 rounded-full ${Utils.getStatusColor(b.status)}">${Utils.formatStatus(b.status)}</span></td>
+                                            <td class="px-6 py-4 text-right">
+                                                <select onchange="AppActions.adminUpdateBooking('${b.id}', this.value)" class="text-xs border border-gray-200 rounded p-1 dark:bg-gray-800 dark:border-gray-700">
+                                                    <option value="" disabled selected>Change Status</option>
+                                                    <option value="pending">Pending</option>
+                                                    <option value="payment_required">Confirm (Req Payment)</option>
+                                                    <option value="cancelled">Cancel</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    `}).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            },
+            visa: () => {
+                const visas = DB.get('amwaj_visa_applications').sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+                
+                return `
+                    <div class="space-y-6">
+                        <h2 class="font-serif text-2xl">Visa Applications</h2>
+                        <div class="bg-white dark:bg-gray-900 border border-brand-border dark:border-gray-800 rounded-2xl overflow-hidden overflow-x-auto">
+                            <table class="w-full text-left text-sm whitespace-nowrap">
+                                <thead class="bg-gray-50 dark:bg-gray-800 text-brand-muted">
+                                    <tr>
+                                        <th class="px-6 py-4 font-medium">Ref / Applied</th>
+                                        <th class="px-6 py-4 font-medium">Customer</th>
+                                        <th class="px-6 py-4 font-medium">Destination / Type</th>
+                                        <th class="px-6 py-4 font-medium">Applicant Info</th>
+                                        <th class="px-6 py-4 font-medium">Status</th>
+                                        <th class="px-6 py-4 font-medium text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-brand-border dark:divide-gray-800">
+                                    ${visas.map(v => {
+                                        const user = DB.findOne('amwaj_users', u => u.id === v.userId);
+                                        return `
+                                        <tr>
+                                            <td class="px-6 py-4">
+                                                <div class="font-medium">${v.id}</div>
+                                                <div class="text-xs text-brand-muted">${Utils.formatDate(v.createdAt)}</div>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <div>${user.name}</div>
+                                                <div class="text-xs text-brand-muted">${user.email}</div>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <div class="font-medium">${v.destination}</div>
+                                                <div class="text-xs text-brand-muted">${v.visaType}</div>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <div>${v.applicantName}</div>
+                                                <div class="text-xs text-brand-muted">PP: ${v.passportNumber}</div>
+                                                <div class="text-xs text-brand-primary dark:text-brand-gold mt-1 cursor-pointer hover:underline" onclick="alert('In prototype, document data exists but rendering base64 preview is omitted for memory safety.')">View Document</div>
+                                            </td>
+                                            <td class="px-6 py-4"><span class="text-[10px] uppercase tracking-wide font-bold px-2 py-1 rounded-full ${Utils.getStatusColor(v.status)}">${Utils.formatStatus(v.status)}</span></td>
+                                            <td class="px-6 py-4 text-right">
+                                                <select onchange="AppActions.adminUpdateVisa('${v.id}', this.value)" class="text-xs border border-gray-200 rounded p-1 dark:bg-gray-800 dark:border-gray-700">
+                                                    <option value="" disabled selected>Change Status</option>
+                                                    <option value="under_review">Under Review</option>
+                                                    <option value="docs_required">Docs Required</option>
+                                                    <option value="processing">Processing</option>
+                                                    <option value="approved">Approved</option>
+                                                    <option value="rejected">Rejected</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    `}).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            },
+            settings: () => {
+                return `
+                    <div class="space-y-6 max-w-2xl">
+                        <h2 class="font-serif text-2xl">System Settings</h2>
+                        
+                        <div class="bg-white dark:bg-gray-900 border border-brand-border dark:border-gray-800 rounded-2xl p-6">
+                            <h3 class="font-medium mb-2 text-error flex items-center gap-2"><i data-lucide="alert-triangle" class="w-5 h-5"></i> Danger Zone (Prototype)</h3>
+                            <p class="text-sm text-brand-muted mb-4">These actions affect the local browser database.</p>
+                            
+                            <div class="space-y-3">
+                                <button onclick="AppActions.adminResetData()" class="px-4 py-2 bg-error/10 text-error border border-error/20 rounded-lg text-sm font-medium hover:bg-error hover:text-white transition-colors">
+                                    Reset Demo Data
+                                </button>
+                                <p class="text-xs text-brand-muted">Removes all activity and restores initial seed data.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        };
+
+        const AuthScreen = () => `
+            <div class="flex w-full h-screen bg-white dark:bg-gray-900">
+                <!-- Image Side -->
+                <div class="hidden lg:block w-1/2 relative">
+                    <img src="https://images.unsplash.com/photo-1542314831-c6a420325142?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-brand-dark/40 flex flex-col justify-between p-12 text-white">
+                        <span class="font-serif text-3xl font-bold tracking-wider">AMWAJ<span class="text-brand-gold">.</span></span>
+                        <div>
+                            <h2 class="font-serif text-4xl mb-4 leading-tight">Your journey begins<br>with confidence.</h2>
+                            <p class="text-white/80 max-w-md">Premium accommodations, trusted visa assistance, and dedicated support for every step of your international travel.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Side -->
+                <div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 relative">
+                    <div class="absolute top-8 right-8 text-xs font-medium px-2 py-1 bg-brand-sand dark:bg-gray-800 rounded text-brand-muted">Prototype Mode</div>
+                    <div class="w-full max-w-md">
+                        <!-- Login View -->
+                        <div id="auth-login" class="space-y-6">
+                            <div class="lg:hidden font-serif text-3xl font-bold tracking-wider mb-8 text-center text-brand-dark dark:text-white">AMWAJ<span class="text-brand-gold">.</span></div>
+                            <div class="text-center lg:text-left">
+                                <h3 class="text-2xl font-serif font-medium mb-1 dark:text-white">Welcome back</h3>
+                                <p class="text-brand-muted text-sm">Sign in to your account</p>
+                            </div>
+                            
+                            <form onsubmit="AppActions.handleLogin(event)" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1 dark:text-gray-300">Email</label>
+                                    <input type="email" name="email" required class="w-full p-3 bg-gray-50 dark:bg-gray-800 border border-brand-border dark:border-gray-700 rounded-xl focus:outline-none focus:border-brand-gold transition-colors dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1 dark:text-gray-300">Password</label>
+                                    <input type="password" name="password" required class="w-full p-3 bg-gray-50 dark:bg-gray-800 border border-brand-border dark:border-gray-700 rounded-xl focus:outline-none focus:border-brand-gold transition-colors dark:text-white">
+                                </div>
+                                <button type="submit" class="w-full bg-brand-primary text-white py-3 rounded-xl font-medium hover:bg-brand-dark transition-colors h-12">Sign In</button>
+                            </form>
+                            
+                            <div class="text-center mt-6">
+                                <p class="text-sm text-brand-muted">Don't have an account? <button onclick="AppActions.toggleAuthView('signup')" class="text-brand-gold font-medium hover:underline">Create one</button></p>
+                            </div>
+                            
+                            <div class="mt-8 p-4 bg-brand-sand/50 dark:bg-gray-800/50 rounded-xl text-xs text-brand-muted border border-brand-border dark:border-gray-700">
+                                <p class="font-medium mb-1 dark:text-gray-300">Prototype Demo Credentials:</p>
+                                <p>Admin: malamgiemou00@gmail.com / Aliyoux@1</p>
+                                <p>User: demo@example.com / demo123</p>
+                            </div>
+                        </div>
+
+                        <!-- Signup View -->
+                        <div id="auth-signup" class="space-y-6 hidden">
+                            <div class="text-center lg:text-left">
+                                <h3 class="text-2xl font-serif font-medium mb-1 dark:text-white">Create Account</h3>
+                                <p class="text-brand-muted text-sm">Join AMWAJ to start your journey</p>
+                            </div>
+                            
+                            <form onsubmit="AppActions.handleSignup(event)" class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div><label class="block text-sm font-medium mb-1 dark:text-gray-300">First Name</label><input type="text" name="firstName" required class="w-full p-3 bg-gray-50 dark:bg-gray-800 border rounded-xl dark:border-gray-700 dark:text-white"></div>
+                                    <div><label class="block text-sm font-medium mb-1 dark:text-gray-300">Last Name</label><input type="text" name="lastName" required class="w-full p-3 bg-gray-50 dark:bg-gray-800 border rounded-xl dark:border-gray-700 dark:text-white"></div>
+                                </div>
+                                <div><label class="block text-sm font-medium mb-1 dark:text-gray-300">Email</label><input type="email" name="email" required class="w-full p-3 bg-gray-50 dark:bg-gray-800 border rounded-xl dark:border-gray-700 dark:text-white"></div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div><label class="block text-sm font-medium mb-1 dark:text-gray-300">Phone</label><input type="tel" name="phone" required class="w-full p-3 bg-gray-50 dark:bg-gray-800 border rounded-xl dark:border-gray-700 dark:text-white"></div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1 dark:text-gray-300">Country</label>
+                                        <select name="country" class="w-full p-3 bg-gray-50 dark:bg-gray-800 border rounded-xl dark:border-gray-700 dark:text-white">
+                                            <option value="Nigeria">Nigeria</option>
+                                            <option value="Egypt">Egypt</option>
+                                            <option value="Saudi Arabia">Saudi Arabia</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div><label class="block text-sm font-medium mb-1 dark:text-gray-300">Password</label><input type="password" name="password" required minlength="6" class="w-full p-3 bg-gray-50 dark:bg-gray-800 border rounded-xl dark:border-gray-700 dark:text-white"></div>
+                                <div><label class="block text-sm font-medium mb-1 dark:text-gray-300">Confirm Password</label><input type="password" name="confirmPassword" required class="w-full p-3 bg-gray-50 dark:bg-gray-800 border rounded-xl dark:border-gray-700 dark:text-white"></div>
+                                
+                                <button type="submit" class="w-full bg-brand-primary text-white py-3 rounded-xl font-medium hover:bg-brand-dark transition-colors h-12">Create Account</button>
+                            </form>
+                            
+                            <div class="text-center mt-6">
+                                <p class="text-sm text-brand-muted">Already have an account? <button onclick="AppActions.toggleAuthView('login')" class="text-brand-gold font-medium hover:underline">Sign in</button></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const AppShell = {
+            render: (user, hash, contentHtml) => {
+                const titleMap = {
+                    '#/dashboard': 'Overview', '#/stays': 'Find a Stay', '#/bookings': 'My Bookings',
+                    '#/visa': 'Visa Services', '#/payments': 'Payments', '#/saved': 'Saved Stays',
+                    '#/admin': 'Admin Dashboard', '#/admin/bookings': 'Manage Bookings',
+                    '#/admin/visa': 'Manage Visas', '#/admin/properties': 'Properties',
+                    '#/admin/customers': 'Customers', '#/admin/settings': 'Settings'
+                };
+                const title = titleMap[hash] || 'AMWAJ Portal';
+
+                return `
+                    ${Components.renderSidebar(user, hash)}
+                    <div class="flex-1 flex flex-col min-h-screen lg:ml-64 w-full transition-all duration-300 bg-gray-50 dark:bg-[#05080c]">
+                        ${Components.renderHeader(user, title)}
+                        <main class="flex-1 p-4 sm:p-8 w-full max-w-7xl mx-auto overflow-x-hidden">
+                            ${contentHtml}
+                        </main>
+                    </div>
+                `;
+            }
+        };
+
+        const Router = {
+            navigate: () => {
+                const hash = window.location.hash || '#/dashboard';
+                const user = Auth.getCurrentUser();
+                const app = document.getElementById('app');
+                
+                // Theme restore
+                if (localStorage.getItem('amwaj_theme') === 'dark') document.documentElement.classList.add('dark');
+
+                // Route Guards
+                if (!user && hash !== '#/auth') {
+                    window.location.hash = '#/auth';
+                    return;
+                }
+                if (user && hash === '#/auth') {
+                    window.location.hash = user.role === 'admin' ? '#/admin' : '#/dashboard';
+                    return;
+                }
+                if (user && user.role === 'admin' && !hash.startsWith('#/admin')) {
+                    window.location.hash = '#/admin';
+                    return;
+                }
+                if (user && user.role === 'customer' && hash.startsWith('#/admin')) {
+                    window.location.hash = '#/dashboard';
+                    return;
+                }
+
+                let content = '';
+
+                // Render specific views
+                if (!user) {
+                    content = AuthScreen();
+                    app.innerHTML = content;
+                } else {
+                    try {
+                        if (user.role === 'customer') {
+                            if (hash === '#/dashboard') content = CustomerViews.dashboard(user);
+                            else if (hash === '#/stays') content = CustomerViews.stays(user);
+                            else if (hash === '#/bookings') content = CustomerViews.bookings(user);
+                            else if (hash === '#/visa') content = CustomerViews.visa(user);
+                            else if (hash === '#/payments') content = CustomerViews.payments(user);
+                            else if (hash === '#/saved') content = Components.renderEmptyState('Coming Soon', 'Saved functionality is being updated.', 'heart'); // Fallback if data absent, though implemented in stays
+                            else content = Components.renderEmptyState('Not Found', 'The requested page does not exist.');
+                        } else {
+                            if (hash === '#/admin') content = AdminViews.dashboard();
+                            else if (hash === '#/admin/bookings') content = AdminViews.bookings();
+                            else if (hash === '#/admin/visa') content = AdminViews.visa();
+                            else if (hash === '#/admin/settings') content = AdminViews.settings();
+                            else content = Components.renderEmptyState('Admin Section', 'Under active development for prototype phase.', 'wrench');
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        content = Components.renderEmptyState('Error', 'Something went wrong rendering this view.', 'alert-circle');
+                    }
+                    
+                    app.innerHTML = AppShell.render(user, hash, content);
+                }
+
+                // Initialize Icons after DOM render
+                lucide.createIcons({root: app});
+            }
+        };
+
+        window.addEventListener('hashchange', Router.navigate);
+        window.addEventListener('DOMContentLoaded', () => {
+            try {
+                SeedData(); // Ensure base data exists
+                Router.navigate();
+            } catch (err) {
+                console.error("App Initialization failed:", err);
+                document.getElementById('app').innerHTML = `<div class="p-12 text-center text-red-600">Failed to initialize prototype local storage. Please clear browser data and try again.</div>`;
+            }
+        });
+
+    </script>
+</body>
+</html>
