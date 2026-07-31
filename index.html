@@ -3,65 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GMOH NET | Premium Digital Services in Nigeria</title>
-    <meta name="description" content="Whatever you do, get into network. Fast, reliable, and secure airtime, data, cable TV, and bill payments in Nigeria. Join GMOH NET today.">
+    <title>AMWAJ — Comfortable Stays. Trusted Journeys.</title>
+    <meta name="description" content="AMWAJ is your trusted bridge to comfortable accommodations, seamless visa processing, and dedicated travel support across Egypt, Saudi Arabia, and beyond.">
     
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="GMOH NET | Premium Digital Services">
-    <meta property="og:description" content="Experience lightning-fast digital services. Buy data, airtime, and pay bills securely.">
-    <meta property="og:image" content="logo.png"> <!-- Placeholder for actual OG image -->
+    <meta property="og:title" content="AMWAJ — Comfortable Stays. Trusted Journeys.">
+    <meta property="og:description" content="Your journey begins with confidence. Discover premium stays and travel assistance.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1542314831-c6a420325142?q=80&w=1200&auto=format&fit=crop">
     
-    <!-- Fonts: Plus Jakarta Sans (Headings) & Inter (Body) -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Tailwind Configuration & Custom CSS -->
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
                     },
                     colors: {
                         brand: {
-                            green: '#82E01E', // Bright Neon Green from logo
-                            dark: '#030303',  // Very deep black
-                            card: '#0A0A0A',  // Slightly lighter black for cards
-                            border: '#1F1F1F', // Subtle border color
-                            gray: '#888888',
+                            dark: '#0A1118',       // Deep navy/charcoal for text and dark sections
+                            primary: '#1A2F45',    // Sophisticated dark blue
+                            sand: '#F5F2EB',       // Warm, luxurious background
+                            gold: '#C5A880',       // Elegant accent
+                            surface: '#FFFFFF',
+                            muted: '#6B7280',
+                            border: '#E5E7EB'
                         }
                     },
-                    backgroundImage: {
-                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                        'hero-glow': 'conic-gradient(from 180deg at 50% 50%, #82E01E22 0deg, transparent 180deg, #82E01E22 360deg)',
+                    boxShadow: {
+                        'premium': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                        'premium-hover': '0 20px 40px -10px rgba(0,0,0,0.12)',
                     },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        }
+                    transitionTimingFunction: {
+                        'elegant': 'cubic-bezier(0.16, 1, 0.3, 1)',
                     }
                 }
             }
@@ -69,895 +54,902 @@
     </script>
 
     <style>
-        /* Custom Premium Utilities */
+        /* Base styles & utilities */
         body {
-            background-color: #030303;
-            color: #ffffff;
+            background-color: theme('colors.brand.sand');
+            color: theme('colors.brand.dark');
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Hide scrollbar for clean look but keep functionality */
+        /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #030303; 
+            background: theme('colors.brand.sand');
         }
         ::-webkit-scrollbar-thumb {
-            background: #1F1F1F; 
+            background: theme('colors.brand.gold');
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #333; 
-        }
 
-        .glass-nav {
-            background: rgba(3, 3, 3, 0.7);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .glass-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .glass-card:hover {
-            border-color: rgba(130, 224, 30, 0.3);
-            box-shadow: 0 10px 40px -10px rgba(130, 224, 30, 0.15);
-        }
-
-        .text-gradient {
-            background: linear-gradient(to right, #ffffff, #a1a1aa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .text-gradient-brand {
-            background: linear-gradient(to right, #82E01E, #a3f053);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Scroll Reveal Classes */
+        /* Reveal Animations */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-1 { transition-delay: 100ms; }
+        .reveal-delay-2 { transition-delay: 200ms; }
+        .reveal-delay-3 { transition-delay: 300ms; }
 
-        /* Animated background mesh */
-        .bg-mesh {
-            background-image: 
-                radial-gradient(at 40% 20%, hsla(88,77%,50%,0.05) 0px, transparent 50%),
-                radial-gradient(at 80% 0%, hsla(189,100%,56%,0.03) 0px, transparent 50%),
-                radial-gradient(at 0% 50%, hsla(88,77%,50%,0.05) 0px, transparent 50%);
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .glass-dark {
+            background: rgba(10, 17, 24, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Button Glow */
-        .btn-glow {
-            position: relative;
+        /* Image hover effects */
+        .img-zoom-container {
+            overflow: hidden;
         }
-        .btn-glow::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(45deg, #82E01E, transparent, #82E01E);
-            z-index: -1;
-            border-radius: inherit;
-            filter: blur(10px);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .img-zoom {
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .btn-glow:hover::before {
-            opacity: 0.6;
+        .img-zoom-container:hover .img-zoom {
+            transform: scale(1.05);
+        }
+
+        /* Custom line clamp */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
     </style>
 </head>
-<body class="bg-brand-dark overflow-x-hidden selection:bg-brand-green selection:text-black font-sans bg-mesh min-h-screen flex flex-col">
+<body class="selection:bg-brand-gold selection:text-white">
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
-                    <!-- Placeholder for actual logo.png -->
-                    <div class="h-10 flex items-center">
-    <img src="logo.png" alt="GMOH NET Logo" class="h-full w-auto">
-</div>
-                </div>
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+            
+            <!-- Logo area -->
+            <a href="#" class="relative z-50 flex items-center gap-2 group" aria-label="AMWAJ Home">
+                <!-- Placeholder for actual AMWAJ logo. Using typography for now to maintain structure -->
+                <span class="font-serif text-2xl font-bold tracking-wider text-brand-dark transition-colors duration-300" id="logo-text">
+                    AMWAJ<span class="text-brand-gold">.</span>
+                </span>
+            </a>
 
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#services" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Services</a>
-                    <a href="#features" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Features</a>
-                    <a href="#how-it-works" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">How it Works</a>
-                    <a href="#testimonials" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Testimonials</a>
-                </div>
-
-                <!-- Auth Buttons -->
-                <div class="hidden md:flex items-center space-x-4">
-                    <a href="https://app.gmohnet.com/" class="text-sm font-medium text-white hover:text-brand-green transition-colors">Sign In</a>
-                    <a href="https://app.gmohnet.com/register" class="btn-glow px-5 py-2.5 rounded-full bg-brand-green text-black font-semibold text-sm hover:bg-[#72c918] transition-all transform hover:scale-105 active:scale-95">
-                        Create Account
-                    </a>
-                </div>
-
-                <!-- Mobile menu button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none p-2">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
-                    </button>
-                </div>
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center space-x-8">
+                <a href="#destinations" class="text-sm font-medium text-brand-dark/80 hover:text-brand-gold transition-colors nav-link">Destinations</a>
+                <a href="#accommodations" class="text-sm font-medium text-brand-dark/80 hover:text-brand-gold transition-colors nav-link">Stays</a>
+                <a href="#visas" class="text-sm font-medium text-brand-dark/80 hover:text-brand-gold transition-colors nav-link">Visa Services</a>
+                <a href="#purposes" class="text-sm font-medium text-brand-dark/80 hover:text-brand-gold transition-colors nav-link">Travel Types</a>
+                <a href="#story" class="text-sm font-medium text-brand-dark/80 hover:text-brand-gold transition-colors nav-link">Our Story</a>
             </div>
+
+            <!-- Desktop CTA -->
+            <div class="hidden lg:flex items-center space-x-4">
+                <button class="text-sm font-medium text-brand-dark hover:text-brand-gold transition-colors nav-link" onclick="openCustomerDashboard()">Sign In</button>
+                <a href="#planner" class="bg-brand-primary text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-brand-dark transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-300">
+                    Plan My Journey
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="lg:hidden relative z-50 p-2 text-brand-dark focus:outline-none" aria-label="Toggle menu">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
         </div>
 
-        <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-brand-card border-b border-brand-border absolute w-full">
-            <div class="px-4 pt-2 pb-6 space-y-1">
-                <a href="#services" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-brand-green hover:bg-brand-dark rounded-md">Services</a>
-                <a href="#features" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-brand-green hover:bg-brand-dark rounded-md">Features</a>
-                <a href="#how-it-works" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-brand-green hover:bg-brand-dark rounded-md">How it Works</a>
-                <div class="pt-4 mt-2 border-t border-brand-border flex flex-col gap-3 px-3">
-                    <a href="https://app.gmohnet.com/" class="w-full text-center py-3 text-base font-medium text-white border border-brand-border rounded-lg hover:bg-brand-border">Sign In</a>
-                    <a href="https://app.gmohnet.com/register" class="w-full text-center py-3 text-base font-semibold bg-brand-green text-black rounded-lg">Create Account</a>
-                </div>
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-brand-sand z-40 transform translate-x-full transition-transform duration-500 cubic-bezier(0.16, 1, 0.3, 1) flex flex-col pt-24 px-6 pb-8 h-screen overflow-y-auto">
+            <div class="flex flex-col space-y-6 text-xl font-serif">
+                <a href="#destinations" class="mobile-link text-brand-dark hover:text-brand-gold transition-colors">Destinations</a>
+                <a href="#accommodations" class="mobile-link text-brand-dark hover:text-brand-gold transition-colors">Stays</a>
+                <a href="#visas" class="mobile-link text-brand-dark hover:text-brand-gold transition-colors">Visa Services</a>
+                <a href="#purposes" class="mobile-link text-brand-dark hover:text-brand-gold transition-colors">Travel Types</a>
+                <a href="#story" class="mobile-link text-brand-dark hover:text-brand-gold transition-colors">Our Story</a>
+            </div>
+            <div class="mt-auto pt-8 flex flex-col space-y-4">
+                <button class="w-full border border-brand-dark/20 text-brand-dark py-3 rounded-xl font-medium" onclick="openCustomerDashboard()">Sign In</button>
+                <a href="#planner" class="w-full bg-brand-primary text-white text-center py-3 rounded-xl font-medium mobile-link">Plan My Journey</a>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="flex-grow">
-        
-        <!-- Hero Section -->
-        <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-            <!-- Background Glow Effects -->
-            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-hero-glow opacity-30 rounded-full blur-[100px] pointer-events-none -z-10"></div>
-            
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card mb-8 reveal">
-                    <span class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span>
-                    <span class="text-xs font-medium text-gray-300 uppercase tracking-wider">Whatever You Do, Get Into Network</span>
-                </div>
+    <header class="relative min-h-[90vh] flex items-center pt-24 pb-12 overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1542314831-c6a420325142?q=80&w=2000&auto=format&fit=crop" alt="Luxury hospitality interior" class="w-full h-full object-cover object-center scale-105 animate-[subtleZoom_20s_ease-in-out_infinite_alternate]">
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-dark/80 via-brand-dark/50 to-transparent"></div>
+        </div>
 
-                <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 reveal reveal-delay-1 leading-[1.1]">
-                    The Premium <br />
-                    <span class="text-gradient-brand italic pr-2">Digital Ecosystem</span>
+        <!-- Hero Content -->
+        <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10 w-full">
+            <div class="max-w-2xl reveal">
+                <span class="inline-block py-1 px-3 rounded-full bg-brand-gold/20 border border-brand-gold/30 text-brand-sand text-xs font-medium tracking-wide uppercase mb-6 backdrop-blur-sm">
+                    Premium Travel & Stays
+                </span>
+                <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl text-white leading-tight mb-6 drop-shadow-lg">
+                    Your journey begins with <span class="italic text-brand-gold">confidence.</span>
                 </h1>
-                
-                <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-brand-gray font-light reveal reveal-delay-2">
-                    Experience lightning-fast airtime, data bundles, and utility payments. Built for Nigerians who demand speed, security, and absolute reliability.
+                <p class="text-lg md:text-xl text-brand-sand/90 mb-10 font-light max-w-lg leading-relaxed">
+                    Comfortable stays, trusted travel assistance, and a seamless way to experience the world. We bridge the gap between you and your destination.
                 </p>
                 
-                <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center reveal reveal-delay-3">
-                    <a href="#" class="btn-glow w-full sm:w-auto px-8 py-4 rounded-full bg-brand-green text-black font-bold text-lg hover:bg-[#72c918] transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
-                        Get Started Free
-                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#accommodations" class="bg-white text-brand-dark px-8 py-4 rounded-xl font-medium text-center hover:bg-brand-sand transition-colors duration-300 flex items-center justify-center gap-2 group">
+                        Find a Stay
+                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                     </a>
-                    <a href="#services" class="w-full sm:w-auto px-8 py-4 rounded-full glass-card text-white font-medium text-lg hover:bg-white/5 transition-colors flex items-center justify-center gap-2 group">
-                        Explore Services
-                        <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 group-hover:translate-y-1 transition-transform"></i>
+                    <a href="#visas" class="glass-dark text-white border border-white/20 px-8 py-4 rounded-xl font-medium text-center hover:bg-white/10 transition-colors duration-300">
+                        Explore Visa Services
                     </a>
                 </div>
+            </div>
+        </div>
+    </header>
 
-                <!-- Abstract 3D/Floating UI Elements Representation -->
-                <div class="mt-20 relative mx-auto w-full max-w-5xl reveal reveal-delay-3 h-[300px] sm:h-[400px] perspective-1000">
-                    <!-- Main Dashboard Card -->
-                    <div class="absolute inset-0 bg-brand-card rounded-2xl border border-brand-border shadow-2xl overflow-hidden transform rotate-x-12 scale-95 animate-float z-20" style="transform: perspective(1000px) rotateX(5deg);">
-                        <!-- Fake UI Header -->
-                        <div class="h-14 border-b border-brand-border flex items-center px-6 justify-between bg-[#0f0f0f]">
-                            <div class="flex gap-2">
-                                <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
-                                <div class="w-3 h-3 rounded-full bg-brand-green/50"></div>
+    <section class="relative z-20 -mt-16 max-w-5xl mx-auto px-6">
+        <div class="bg-white rounded-2xl shadow-premium p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex-1 w-full">
+                <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Where are you going?</label>
+                <div class="relative cursor-pointer group">
+                    <select class="w-full appearance-none bg-brand-sand/50 border border-brand-border rounded-xl px-4 py-3 text-brand-dark font-medium focus:outline-none focus:border-brand-gold cursor-pointer transition-colors" aria-label="Destination">
+                        <option value="" disabled selected>Select destination...</option>
+                        <option value="egypt">Egypt</option>
+                        <option value="saudi-arabia">Saudi Arabia</option>
+                        <option value="other">Other Destinations</option>
+                    </select>
+                    <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted pointer-events-none group-hover:text-brand-dark transition-colors"></i>
+                </div>
+            </div>
+            
+            <div class="hidden md:block w-px h-12 bg-brand-border"></div>
+            
+            <div class="flex-1 w-full">
+                <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">What do you need?</label>
+                <div class="relative cursor-pointer group">
+                    <select class="w-full appearance-none bg-brand-sand/50 border border-brand-border rounded-xl px-4 py-3 text-brand-dark font-medium focus:outline-none focus:border-brand-gold cursor-pointer transition-colors" aria-label="Service needed">
+                        <option value="" disabled selected>Select service...</option>
+                        <option value="stay">Accommodation</option>
+                        <option value="visa">Visa Processing</option>
+                        <option value="both">Stay & Visa</option>
+                    </select>
+                    <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted pointer-events-none group-hover:text-brand-dark transition-colors"></i>
+                </div>
+            </div>
+            
+            <div class="w-full md:w-auto md:pt-6">
+                <button onclick="startJourneySearch()" class="w-full md:w-auto bg-brand-primary text-white px-8 py-3.5 rounded-xl font-medium hover:bg-brand-dark transition-colors duration-300 shadow-md">
+                    Start
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="trust" class="py-24 bg-brand-sand">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                <h2 class="font-serif text-3xl md:text-4xl text-brand-dark mb-4">Peace of mind, guaranteed.</h2>
+                <p class="text-brand-muted">We eliminate the uncertainty of international travel by providing verified services and dedicated human support.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Trust Item 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-premium transition-shadow duration-300 reveal reveal-delay-1 border border-brand-border/50">
+                    <div class="w-12 h-12 bg-brand-sand rounded-full flex items-center justify-center mb-6 text-brand-gold">
+                        <i data-lucide="shield-check"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium mb-3 text-brand-dark">Trusted Partners</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">We work exclusively with verified accommodation and travel-service providers to ensure quality.</p>
+                </div>
+                
+                <!-- Trust Item 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-premium transition-shadow duration-300 reveal reveal-delay-2 border border-brand-border/50">
+                    <div class="w-12 h-12 bg-brand-sand rounded-full flex items-center justify-center mb-6 text-brand-gold">
+                        <i data-lucide="eye"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium mb-3 text-brand-dark">Transparent Process</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">No hidden fees or surprises. You know exactly what you are requesting and what happens next.</p>
+                </div>
+
+                <!-- Trust Item 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-premium transition-shadow duration-300 reveal reveal-delay-3 border border-brand-border/50">
+                    <div class="w-12 h-12 bg-brand-sand rounded-full flex items-center justify-center mb-6 text-brand-gold">
+                        <i data-lucide="headphones"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium mb-3 text-brand-dark">Human Guidance</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Technology makes it fast, but our human team ensures you always have assistance when needed.</p>
+                </div>
+
+                <!-- Trust Item 4 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-premium transition-shadow duration-300 reveal reveal-delay-3 border border-brand-border/50">
+                    <div class="w-12 h-12 bg-brand-sand rounded-full flex items-center justify-center mb-6 text-brand-gold">
+                        <i data-lucide="sofa"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium mb-3 text-brand-dark">Comfort First</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Every accommodation and service is curated with your absolute comfort and security in mind.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="destinations" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal">
+                <div class="max-w-2xl">
+                    <span class="text-brand-gold font-medium tracking-widest text-sm uppercase mb-2 block">Where we operate</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-brand-dark">Curated destinations.</h2>
+                </div>
+                <a href="#planner" class="inline-flex items-center gap-2 text-brand-primary font-medium hover:text-brand-gold transition-colors">
+                    Explore all regions <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Egypt Card -->
+                <div class="group relative rounded-3xl overflow-hidden aspect-[4/3] md:aspect-[3/4] lg:aspect-[4/3] img-zoom-container reveal cursor-pointer" onclick="openDestination('egypt')">
+                    <img src="https://images.unsplash.com/photo-1539667468225-eebb663053e6?q=80&w=1200&auto=format&fit=crop" alt="Cairo Egypt Pyramids" class="w-full h-full object-cover img-zoom">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <h3 class="font-serif text-4xl text-white mb-2">Egypt</h3>
+                                <p class="text-brand-sand/90 text-sm md:text-base">Cairo, Giza, Alexandria, New Cairo</p>
                             </div>
-                            <div class="w-32 h-4 bg-brand-border rounded-full"></div>
-                            <div class="w-8 h-8 rounded-full bg-brand-border"></div>
-                        </div>
-                        <!-- Fake UI Body -->
-                        <div class="p-6 grid grid-cols-3 gap-6 h-full">
-                            <div class="col-span-2 space-y-4">
-                                <div class="h-32 rounded-xl bg-gradient-to-r from-brand-green/20 to-transparent border border-brand-green/30 p-6 flex flex-col justify-center">
-                                    <div class="w-24 h-4 bg-brand-green/50 rounded mb-2"></div>
-                                    <div class="w-48 h-8 bg-white/90 rounded"></div>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="h-24 rounded-xl bg-[#111] border border-brand-border"></div>
-                                    <div class="h-24 rounded-xl bg-[#111] border border-brand-border"></div>
-                                </div>
-                            </div>
-                            <div class="col-span-1 border-l border-brand-border pl-6 space-y-4">
-                                <div class="h-8 w-full bg-[#111] rounded"></div>
-                                <div class="h-8 w-full bg-[#111] rounded"></div>
-                                <div class="h-8 w-full bg-[#111] rounded"></div>
-                                <div class="h-8 w-full bg-[#111] rounded"></div>
+                            <div class="w-12 h-12 rounded-full glass flex items-center justify-center text-white transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                                <i data-lucide="arrow-up-right"></i>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Saudi Arabia Card -->
+                <div class="group relative rounded-3xl overflow-hidden aspect-[4/3] md:aspect-[3/4] lg:aspect-[4/3] img-zoom-container reveal reveal-delay-1 cursor-pointer" onclick="openDestination('saudi')">
+                    <img src="https://images.unsplash.com/photo-1580414057403-c52af3128362?q=80&w=1200&auto=format&fit=crop" alt="Saudi Arabia Architecture" class="w-full h-full object-cover img-zoom">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <h3 class="font-serif text-4xl text-white mb-2">Saudi Arabia</h3>
+                                <p class="text-brand-sand/90 text-sm md:text-base">Riyadh, Jeddah, Makkah, Madinah</p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full glass flex items-center justify-center text-white transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                                <i data-lucide="arrow-up-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="accommodations" class="py-24 bg-brand-sand">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal">
+                <div>
+                    <span class="text-brand-gold font-medium tracking-widest text-sm uppercase mb-2 block">Featured Accommodations</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-brand-dark mb-4">Find your stay.</h2>
+                    <p class="text-brand-muted max-w-xl">Handpicked properties verified for comfort, safety, and modern amenities. Ready for you to move in.</p>
+                </div>
+                <button class="bg-white border border-brand-border text-brand-dark px-6 py-3 rounded-full text-sm font-medium hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-all duration-300 shadow-sm">
+                    View all properties
+                </button>
+            </div>
+
+            <!-- This grid will be populated by JavaScript -->
+            <div id="property-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Fallback loading state -->
+                <div class="col-span-full py-12 flex justify-center text-brand-muted">
+                    <i data-lucide="loader-2" class="w-8 h-8 animate-spin"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="purposes" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                <h2 class="font-serif text-4xl md:text-5xl text-brand-dark mb-4">Travel for what matters.</h2>
+                <p class="text-brand-muted">Whatever the purpose of your journey, we provide tailored accommodation and assistance to suit your specific needs.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Purpose Cards -->
+                <div class="group bg-brand-sand p-8 rounded-2xl border border-transparent hover:border-brand-gold/30 hover:bg-white hover:shadow-premium transition-all duration-300 reveal cursor-pointer" onclick="filterByPurpose('medical')">
+                    <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <i data-lucide="heart-pulse" class="text-brand-primary"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-3 text-brand-dark group-hover:text-brand-primary transition-colors">Medical Travel</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Comfortable, accessible accommodations near major medical centers. Focus on healing while we handle the stay.</p>
+                </div>
+
+                <div class="group bg-brand-sand p-8 rounded-2xl border border-transparent hover:border-brand-gold/30 hover:bg-white hover:shadow-premium transition-all duration-300 reveal reveal-delay-1 cursor-pointer" onclick="filterByPurpose('study')">
+                    <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <i data-lucide="book-open" class="text-brand-primary"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-3 text-brand-dark group-hover:text-brand-primary transition-colors">Study & Education</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Long-term, secure living spaces suited for students. Affordable options close to universities.</p>
+                </div>
+
+                <div class="group bg-brand-sand p-8 rounded-2xl border border-transparent hover:border-brand-gold/30 hover:bg-white hover:shadow-premium transition-all duration-300 reveal reveal-delay-2 cursor-pointer" onclick="filterByPurpose('tourism')">
+                    <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <i data-lucide="camera" class="text-brand-primary"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-3 text-brand-dark group-hover:text-brand-primary transition-colors">Tourism & Leisure</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Premium stays in the heart of the city or tranquil resorts. Experience your destination in absolute luxury.</p>
+                </div>
+
+                <div class="group bg-brand-sand p-8 rounded-2xl border border-transparent hover:border-brand-gold/30 hover:bg-white hover:shadow-premium transition-all duration-300 reveal cursor-pointer" onclick="filterByPurpose('business')">
+                    <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <i data-lucide="briefcase" class="text-brand-primary"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-3 text-brand-dark group-hover:text-brand-primary transition-colors">Business Trips</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Executive accommodations equipped with high-speed internet and workspaces, near commercial hubs.</p>
+                </div>
+
+                <div class="group bg-brand-sand p-8 rounded-2xl border border-transparent hover:border-brand-gold/30 hover:bg-white hover:shadow-premium transition-all duration-300 reveal reveal-delay-1 cursor-pointer" onclick="filterByPurpose('family')">
+                    <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <i data-lucide="users" class="text-brand-primary"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-3 text-brand-dark group-hover:text-brand-primary transition-colors">Family Visits</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Spacious multi-bedroom apartments designed for families. Safe neighborhoods with home-like amenities.</p>
+                </div>
+
+                <div class="group bg-brand-sand p-8 rounded-2xl border border-transparent hover:border-brand-gold/30 hover:bg-white hover:shadow-premium transition-all duration-300 reveal reveal-delay-2 cursor-pointer" onclick="filterByPurpose('pilgrimage')">
+                    <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                        <i data-lucide="moon" class="text-brand-primary"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-3 text-brand-dark group-hover:text-brand-primary transition-colors">Pilgrimage</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Conveniently located stays and specialized assistance to ensure a peaceful and focused spiritual journey.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="visas" class="py-24 bg-brand-dark text-white relative overflow-hidden">
+        <!-- Abstract background pattern -->
+        <div class="absolute inset-0 opacity-5">
+            <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"/></pattern></defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <span class="text-brand-gold font-medium tracking-widest text-sm uppercase mb-4 block">Visa Processing</span>
+                    <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl mb-6">Wherever you're going, we'll help you get there.</h2>
+                    <p class="text-brand-sand/70 text-lg mb-10 max-w-md font-light leading-relaxed">
+                        Navigate international travel requirements with ease. AMWAJ provides dedicated assistance for visa processing across multiple destinations and categories.
+                    </p>
                     
-                    <!-- Floating abstract elements -->
-                    <div class="absolute -right-10 top-10 w-32 h-32 bg-brand-green/10 rounded-full blur-2xl animate-blob z-10"></div>
-                    <div class="absolute -left-10 bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl animate-blob animation-delay-2000 z-10"></div>
-                    
-                    <!-- Floating Small Card -->
-                    <div class="absolute -right-4 md:-right-12 top-1/4 glass-card p-4 rounded-xl z-30 animate-float delay-150 flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
-                            <i data-lucide="check" class="text-brand-green w-5 h-5"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-white">Transfer Successful</p>
-                            <p class="text-xs text-brand-gray">Just now</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trust / Stats Section -->
-        <section class="py-10 border-y border-brand-border bg-[#070707]">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-brand-border/50">
-                    <div class="reveal">
-                        <p class="text-3xl md:text-4xl font-display font-bold text-white mb-1">99.9%</p>
-                        <p class="text-sm text-brand-gray font-medium uppercase tracking-wider">Uptime</p>
-                    </div>
-                    <div class="reveal reveal-delay-1">
-                        <p class="text-3xl md:text-4xl font-display font-bold text-white mb-1">500K+</p>
-                        <p class="text-sm text-brand-gray font-medium uppercase tracking-wider">Transactions</p>
-                    </div>
-                    <div class="reveal reveal-delay-2">
-                        <p class="text-3xl md:text-4xl font-display font-bold text-white mb-1"><0.5s</p>
-                        <p class="text-sm text-brand-gray font-medium uppercase tracking-wider">Delivery Time</p>
-                    </div>
-                    <div class="reveal reveal-delay-3">
-                        <p class="text-3xl md:text-4xl font-display font-bold text-white mb-1">24/7</p>
-                        <p class="text-sm text-brand-gray font-medium uppercase tracking-wider">Active Support</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Services Section -->
-        <section id="services" class="py-24 relative">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
-                    <h2 class="font-display text-3xl md:text-5xl font-bold mb-4">Everything you need,<br><span class="text-gradient">in one powerful platform.</span></h2>
-                    <p class="text-brand-gray text-lg">Stop jumping between apps. Manage all your digital utility needs instantly from a single, secure wallet.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Service Card 1 -->
-                    <div class="glass-card p-8 rounded-2xl group cursor-pointer reveal">
-                        <div class="w-14 h-14 rounded-xl bg-[#111] border border-brand-border flex items-center justify-center mb-6 group-hover:border-brand-green/50 group-hover:bg-brand-green/10 transition-colors">
-                            <i data-lucide="wifi" class="w-7 h-7 text-white group-hover:text-brand-green transition-colors"></i>
-                        </div>
-                        <h3 class="text-xl font-display font-bold text-white mb-3">Data Bundles</h3>
-                        <p class="text-brand-gray text-sm leading-relaxed mb-6">Ultra-fast internet data for MTN, Airtel, Glo, and 9mobile at unbeatable wholesale prices. Delivered instantly.</p>
-                        <div class="flex items-center text-brand-green text-sm font-semibold group-hover:gap-2 transition-all">
-                            Buy Data <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                        </div>
-                    </div>
-
-                    <!-- Service Card 2 -->
-                    <div class="glass-card p-8 rounded-2xl group cursor-pointer reveal reveal-delay-1">
-                        <div class="w-14 h-14 rounded-xl bg-[#111] border border-brand-border flex items-center justify-center mb-6 group-hover:border-brand-green/50 group-hover:bg-brand-green/10 transition-colors">
-                            <i data-lucide="smartphone" class="w-7 h-7 text-white group-hover:text-brand-green transition-colors"></i>
-                        </div>
-                        <h3 class="text-xl font-display font-bold text-white mb-3">Airtime Top-up</h3>
-                        <p class="text-brand-gray text-sm leading-relaxed mb-6">Recharge your line or send airtime to loved ones securely. Enjoy instant crediting and cashback rewards.</p>
-                        <div class="flex items-center text-brand-green text-sm font-semibold group-hover:gap-2 transition-all">
-                            Buy Airtime <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                        </div>
-                    </div>
-
-                    <!-- Service Card 3 -->
-                    <div class="glass-card p-8 rounded-2xl group cursor-pointer reveal reveal-delay-2">
-                        <div class="w-14 h-14 rounded-xl bg-[#111] border border-brand-border flex items-center justify-center mb-6 group-hover:border-brand-green/50 group-hover:bg-brand-green/10 transition-colors">
-                            <i data-lucide="zap" class="w-7 h-7 text-white group-hover:text-brand-green transition-colors"></i>
-                        </div>
-                        <h3 class="text-xl font-display font-bold text-white mb-3">Electricity Bills</h3>
-                        <p class="text-brand-gray text-sm leading-relaxed mb-6">Pay IKEDC, EKEDC, AEDC, and all other DISCOs nationwide. Generate your token instantly without leaving the couch.</p>
-                        <div class="flex items-center text-brand-green text-sm font-semibold group-hover:gap-2 transition-all">
-                            Pay Bills <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                        </div>
-                    </div>
-
-                    <!-- Service Card 4 -->
-                    <div class="glass-card p-8 rounded-2xl group cursor-pointer reveal">
-                        <div class="w-14 h-14 rounded-xl bg-[#111] border border-brand-border flex items-center justify-center mb-6 group-hover:border-brand-green/50 group-hover:bg-brand-green/10 transition-colors">
-                            <i data-lucide="tv" class="w-7 h-7 text-white group-hover:text-brand-green transition-colors"></i>
-                        </div>
-                        <h3 class="text-xl font-display font-bold text-white mb-3">Cable TV</h3>
-                        <p class="text-brand-gray text-sm leading-relaxed mb-6">Renew DSTV, GOTV, and Startimes subscriptions. Never miss a moment of your favorite shows. Instant activation.</p>
-                        <div class="flex items-center text-brand-green text-sm font-semibold group-hover:gap-2 transition-all">
-                            Subscribe Now <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                        </div>
-                    </div>
-
-                    <!-- Service Card 5 -->
-                    <div class="glass-card p-8 rounded-2xl group cursor-pointer reveal reveal-delay-1">
-                        <div class="w-14 h-14 rounded-xl bg-[#111] border border-brand-border flex items-center justify-center mb-6 group-hover:border-brand-green/50 group-hover:bg-brand-green/10 transition-colors">
-                            <i data-lucide="graduation-cap" class="w-7 h-7 text-white group-hover:text-brand-green transition-colors"></i>
-                        </div>
-                        <h3 class="text-xl font-display font-bold text-white mb-3">Result Checkers</h3>
-                        <p class="text-brand-gray text-sm leading-relaxed mb-6">Purchase authentic WAEC, NECO, and NABTEB result checking PINs directly. Get PINs delivered via SMS/Email instantly.</p>
-                        <div class="flex items-center text-brand-green text-sm font-semibold group-hover:gap-2 transition-all">
-                            Get PINs <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                        </div>
-                    </div>
-
-                    <!-- Service Card 6 (Agent) -->
-                    <div class="glass-card p-8 rounded-2xl group cursor-pointer reveal reveal-delay-2 border-brand-green/20 bg-gradient-to-br from-brand-card to-[#0a1403]">
-                        <div class="w-14 h-14 rounded-xl bg-brand-green text-black flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(130,224,30,0.4)]">
-                            <i data-lucide="briefcase" class="w-7 h-7"></i>
-                        </div>
-                        <h3 class="text-xl font-display font-bold text-white mb-3">Become an Agent</h3>
-                        <p class="text-brand-gray text-sm leading-relaxed mb-6">Start your own Vtu business. Get massive discounts, dedicated API access, and earn money daily with GMOH NET.</p>
-                        <div class="flex items-center text-brand-green text-sm font-semibold group-hover:gap-2 transition-all">
-                            Join Network <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Bento Box -->
-        <section id="features" class="py-24 bg-[#050505] relative overflow-hidden">
-             <!-- Top subtle line -->
-             <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-brand-border to-transparent"></div>
-
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="mb-16 reveal">
-                    <h2 class="font-display text-3xl md:text-5xl font-bold mb-4">Engineered for <span class="text-brand-green">Excellence.</span></h2>
-                    <p class="text-brand-gray text-lg max-w-2xl">Not just another VTU platform. We built a robust financial infrastructure designed to never fail you.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
-                    <!-- Bento Item 1: Large Dashboard -->
-                    <div class="md:col-span-2 glass-card rounded-3xl p-8 relative overflow-hidden group reveal">
-                        <div class="relative z-10 w-full md:w-2/3">
-                            <div class="w-12 h-12 rounded-full bg-brand-border flex items-center justify-center mb-4">
-                                <i data-lucide="layout-dashboard" class="w-6 h-6 text-white"></i>
-                            </div>
-                            <h3 class="text-2xl font-display font-bold text-white mb-2">Smart Dashboard</h3>
-                            <p class="text-brand-gray">Track spending, analyze patterns, and manage your wallet balance with a beautiful, intuitive interface.</p>
-                        </div>
-                        <!-- Decorative graphic -->
-                        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-brand-green/10 rounded-full blur-3xl group-hover:bg-brand-green/20 transition-colors"></div>
-                        <div class="absolute right-0 bottom-0 p-6 hidden md:block opacity-50 group-hover:opacity-100 transition-opacity">
-                             <img src="data:image/svg+xml,%3Csvg width='150' height='100' viewBox='0 0 150 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 90 L40 50 L70 70 L110 20 L140 40' stroke='%2382E01E' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" alt="Graph" class="w-full h-auto">
-                        </div>
-                    </div>
-
-                    <!-- Bento Item 2: Security -->
-                    <div class="glass-card rounded-3xl p-8 relative overflow-hidden group reveal reveal-delay-1">
-                        <div class="w-12 h-12 rounded-full bg-brand-border flex items-center justify-center mb-4">
-                            <i data-lucide="shield-check" class="w-6 h-6 text-white"></i>
-                        </div>
-                        <h3 class="text-2xl font-display font-bold text-white mb-2">Bank-Grade Security</h3>
-                        <p class="text-brand-gray text-sm">256-bit encryption, 2FA, and biometric login protect your funds.</p>
-                    </div>
-
-                    <!-- Bento Item 3: Referrals -->
-                    <div class="glass-card rounded-3xl p-8 relative overflow-hidden group reveal reveal-delay-2">
-                        <div class="w-12 h-12 rounded-full bg-brand-border flex items-center justify-center mb-4">
-                            <i data-lucide="users" class="w-6 h-6 text-white"></i>
-                        </div>
-                        <h3 class="text-2xl font-display font-bold text-white mb-2">Referral Rewards</h3>
-                        <p class="text-brand-gray text-sm">Earn lifelong commissions for every user you bring to the network.</p>
-                    </div>
-
-                    <!-- Bento Item 4: Automation (Wide) -->
-                    <div class="md:col-span-2 glass-card rounded-3xl p-8 relative overflow-hidden group reveal flex flex-col justify-between">
-                         <div>
-                            <div class="w-12 h-12 rounded-full bg-brand-border flex items-center justify-center mb-4">
-                                <i data-lucide="zap" class="w-6 h-6 text-brand-green"></i>
-                            </div>
-                            <h3 class="text-2xl font-display font-bold text-white mb-2">Automated Infrastructure</h3>
-                            <p class="text-brand-gray max-w-md">No human intervention required. Our servers process thousands of requests per second, ensuring your services are delivered instantly, 24/7/365.</p>
-                        </div>
-                        <div class="mt-4 flex gap-2">
-                            <span class="px-3 py-1 bg-[#111] border border-brand-border rounded-full text-xs text-white">API Integrated</span>
-                            <span class="px-3 py-1 bg-[#111] border border-brand-border rounded-full text-xs text-white">Zero Downtime</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- How It Works Section -->
-        <section id="how-it-works" class="py-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16 reveal">
-                    <h2 class="font-display text-3xl md:text-5xl font-bold mb-4">Seamless Experience.</h2>
-                    <p class="text-brand-gray text-lg">From zero to completed transaction in under 60 seconds.</p>
-                </div>
-
-                <div class="relative">
-                    <!-- Connecting Line (Desktop) -->
-                    <div class="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-brand-border -z-10">
-                        <div class="absolute inset-y-0 left-0 bg-brand-green w-1/3 shadow-[0_0_10px_#82E01E]"></div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
-                        <!-- Step 1 -->
-                        <div class="relative text-center reveal">
-                            <div class="w-24 h-24 mx-auto bg-brand-card border-2 border-brand-green rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(130,224,30,0.15)] z-10 relative">
-                                <i data-lucide="user-plus" class="w-10 h-10 text-brand-green"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-2">Create Account</h3>
-                            <p class="text-sm text-brand-gray">Sign up in seconds with just your name, email, and phone number.</p>
-                        </div>
-
-                        <!-- Step 2 -->
-                        <div class="relative text-center reveal reveal-delay-1">
-                            <div class="w-24 h-24 mx-auto bg-brand-card border-2 border-brand-border rounded-full flex items-center justify-center mb-6 z-10 relative">
-                                <i data-lucide="wallet" class="w-10 h-10 text-white"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-2">Fund Wallet</h3>
-                            <p class="text-sm text-brand-gray">Transfer to your dedicated virtual account or use debit card.</p>
-                        </div>
-
-                        <!-- Step 3 -->
-                        <div class="relative text-center reveal reveal-delay-2">
-                            <div class="w-24 h-24 mx-auto bg-brand-card border-2 border-brand-border rounded-full flex items-center justify-center mb-6 z-10 relative">
-                                <i data-lucide="shopping-cart" class="w-10 h-10 text-white"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-2">Choose Service</h3>
-                            <p class="text-sm text-brand-gray">Select data, airtime, or bill payment from our sleek dashboard.</p>
-                        </div>
-
-                        <!-- Step 4 -->
-                        <div class="relative text-center reveal reveal-delay-3">
-                            <div class="w-24 h-24 mx-auto bg-brand-card border-2 border-brand-border rounded-full flex items-center justify-center mb-6 z-10 relative">
-                                <i data-lucide="check-circle" class="w-10 h-10 text-white"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-2">Instant Delivery</h3>
-                            <p class="text-sm text-brand-gray">Enjoy immediate value delivery and instant email receipts.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- App Preview Section -->
-        <section class="py-24 bg-[#050505] overflow-hidden relative">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col lg:flex-row items-center gap-16">
-                    
-                    <!-- Text Content -->
-                    <div class="w-full lg:w-1/2 reveal">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
-                            <i data-lucide="smartphone" class="w-4 h-4 text-brand-green"></i>
-                            <span class="text-xs font-medium text-gray-300">Mobile Experience</span>
-                        </div>
-                        <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">Your digital life,<br>in your pocket.</h2>
-                        <p class="text-brand-gray text-lg mb-8 leading-relaxed">
-                            Access GMOH NET on any device. Our progressive web app provides a native-like experience on iOS and Android. Save it to your home screen for one-tap access to all services.
-                        </p>
-                        
-                        <ul class="space-y-4 mb-10">
-                            <li class="flex items-center gap-3 text-white">
-                                <i data-lucide="check" class="w-5 h-5 text-brand-green"></i>
-                                Face ID / Biometric Login
-                            </li>
-                            <li class="flex items-center gap-3 text-white">
-                                <i data-lucide="check" class="w-5 h-5 text-brand-green"></i>
-                                Push Notifications for transactions
-                            </li>
-                            <li class="flex items-center gap-3 text-white">
-                                <i data-lucide="check" class="w-5 h-5 text-brand-green"></i>
-                                Offline PIN generation support
-                            </li>
-                        </ul>
-
-                        <button class="glass-card px-8 py-4 rounded-xl text-white font-medium hover:bg-white/5 transition-all flex items-center gap-3 group">
-                            <i data-lucide="download" class="w-5 h-5 group-hover:text-brand-green transition-colors"></i>
-                            Install Web App
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="startVisaApplication()" class="bg-brand-gold text-brand-dark px-8 py-4 rounded-xl font-medium text-center hover:bg-white transition-colors duration-300">
+                            Start Application
+                        </button>
+                        <button class="border border-white/30 text-white px-8 py-4 rounded-xl font-medium text-center hover:bg-white/10 transition-colors duration-300">
+                            View Requirements
                         </button>
                     </div>
+                </div>
 
-                    <!-- Visual / Phone Mockup -->
-                    <div class="w-full lg:w-1/2 relative reveal reveal-delay-2 flex justify-center">
-                        <!-- Abstract Phone Frame via CSS -->
-                        <div class="w-[300px] h-[600px] rounded-[40px] border-[8px] border-[#1f1f1f] bg-brand-dark relative shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden z-20">
-                            <!-- Notch -->
-                            <div class="absolute top-0 inset-x-0 h-6 flex justify-center">
-                                <div class="w-32 h-6 bg-[#1f1f1f] rounded-b-3xl"></div>
+                <!-- Process Steps -->
+                <div class="relative reveal reveal-delay-1">
+                    <div class="absolute left-6 top-6 bottom-6 w-px bg-gradient-to-b from-brand-gold via-white/20 to-transparent"></div>
+                    <div class="space-y-8 relative">
+                        <!-- Step 1 -->
+                        <div class="flex items-start gap-6 group">
+                            <div class="w-12 h-12 rounded-full bg-brand-dark border-2 border-brand-gold flex items-center justify-center text-brand-gold font-serif text-xl shrink-0 z-10 group-hover:bg-brand-gold group-hover:text-brand-dark transition-colors">01</div>
+                            <div class="pt-2">
+                                <h4 class="text-xl font-medium mb-1">Choose Destination</h4>
+                                <p class="text-sm text-brand-sand/60">Select where you are going and your reason for travel.</p>
+                            </div>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="flex items-start gap-6 group">
+                            <div class="w-12 h-12 rounded-full bg-brand-dark border-2 border-white/20 flex items-center justify-center text-white/50 font-serif text-xl shrink-0 z-10 group-hover:border-brand-gold transition-colors">02</div>
+                            <div class="pt-2">
+                                <h4 class="text-xl font-medium mb-1">Check Requirements</h4>
+                                <p class="text-sm text-brand-sand/60">Review a clear list of documents needed for your specific visa type.</p>
+                            </div>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="flex items-start gap-6 group">
+                            <div class="w-12 h-12 rounded-full bg-brand-dark border-2 border-white/20 flex items-center justify-center text-white/50 font-serif text-xl shrink-0 z-10 group-hover:border-brand-gold transition-colors">03</div>
+                            <div class="pt-2">
+                                <h4 class="text-xl font-medium mb-1">Upload Documents</h4>
+                                <p class="text-sm text-brand-sand/60">Securely upload your files directly through our platform.</p>
+                            </div>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="flex items-start gap-6 group">
+                            <div class="w-12 h-12 rounded-full bg-brand-dark border-2 border-white/20 flex items-center justify-center text-white/50 font-serif text-xl shrink-0 z-10 group-hover:border-brand-gold transition-colors">04</div>
+                            <div class="pt-2">
+                                <h4 class="text-xl font-medium mb-1">Track Progress</h4>
+                                <p class="text-sm text-brand-sand/60">Receive real-time updates on your application status.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="planner" class="py-24 bg-brand-sand relative">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="bg-white rounded-3xl shadow-premium overflow-hidden reveal">
+                <div class="bg-brand-primary p-8 md:p-12 text-center text-white">
+                    <h2 class="font-serif text-3xl md:text-4xl mb-3">Plan My Journey</h2>
+                    <p class="text-white/80 font-light">Tell us where you're going. We'll curate the rest.</p>
+                </div>
+                
+                <div class="p-8 md:p-12">
+                    <form id="journey-form" onsubmit="event.preventDefault(); startJourneyPlanner();">
+                        <!-- Step 1: Destination (Visible initially) -->
+                        <div id="planner-step-1" class="space-y-6">
+                            <h3 class="text-xl font-medium text-brand-dark">1. Where are you headed?</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="dest" value="egypt" class="peer sr-only" checked>
+                                    <div class="text-center py-4 px-2 border-2 border-brand-border rounded-xl peer-checked:border-brand-primary peer-checked:bg-brand-primary/5 hover:border-brand-primary/50 transition-all">
+                                        <div class="font-medium text-brand-dark">Egypt</div>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="dest" value="saudi" class="peer sr-only">
+                                    <div class="text-center py-4 px-2 border-2 border-brand-border rounded-xl peer-checked:border-brand-primary peer-checked:bg-brand-primary/5 hover:border-brand-primary/50 transition-all">
+                                        <div class="font-medium text-brand-dark">Saudi Arabia</div>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="dest" value="uae" class="peer sr-only">
+                                    <div class="text-center py-4 px-2 border-2 border-brand-border rounded-xl peer-checked:border-brand-primary peer-checked:bg-brand-primary/5 hover:border-brand-primary/50 transition-all">
+                                        <div class="font-medium text-brand-dark">UAE</div>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="dest" value="other" class="peer sr-only">
+                                    <div class="text-center py-4 px-2 border-2 border-brand-border rounded-xl peer-checked:border-brand-primary peer-checked:bg-brand-primary/5 hover:border-brand-primary/50 transition-all">
+                                        <div class="font-medium text-brand-dark">Other</div>
+                                    </div>
+                                </label>
                             </div>
                             
-                            <!-- App Content Fake UI -->
-                            <div class="p-6 pt-12 h-full flex flex-col">
-                                <div class="flex justify-between items-center mb-8">
+                            <h3 class="text-xl font-medium text-brand-dark pt-4 border-t border-brand-border">2. What services do you need?</h3>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-4 p-4 border border-brand-border rounded-xl cursor-pointer hover:bg-brand-sand transition-colors">
+                                    <input type="checkbox" class="w-5 h-5 text-brand-primary rounded border-brand-border focus:ring-brand-primary" checked>
                                     <div>
-                                        <p class="text-xs text-brand-gray">Total Balance</p>
-                                        <p class="text-2xl font-bold text-white">₦45,250.00</p>
+                                        <div class="font-medium text-brand-dark">Accommodation</div>
+                                        <div class="text-sm text-brand-muted">Find a place to stay</div>
                                     </div>
-                                    <div class="w-10 h-10 rounded-full bg-brand-green/20 flex items-center justify-center">
-                                        <i data-lucide="plus" class="text-brand-green w-5 h-5"></i>
+                                </label>
+                                <label class="flex items-center gap-4 p-4 border border-brand-border rounded-xl cursor-pointer hover:bg-brand-sand transition-colors">
+                                    <input type="checkbox" class="w-5 h-5 text-brand-primary rounded border-brand-border focus:ring-brand-primary">
+                                    <div>
+                                        <div class="font-medium text-brand-dark">Visa Assistance</div>
+                                        <div class="text-sm text-brand-muted">Help with application processing</div>
                                     </div>
-                                </div>
-                                
-                                <div class="grid grid-cols-4 gap-4 mb-8">
-                                    <div class="flex flex-col items-center gap-2">
-                                        <div class="w-12 h-12 rounded-full bg-[#111] flex items-center justify-center"><i data-lucide="wifi" class="w-5 h-5 text-white"></i></div>
-                                        <span class="text-[10px] text-gray-400">Data</span>
+                                </label>
+                                <label class="flex items-center gap-4 p-4 border border-brand-border rounded-xl cursor-pointer hover:bg-brand-sand transition-colors">
+                                    <input type="checkbox" class="w-5 h-5 text-brand-primary rounded border-brand-border focus:ring-brand-primary">
+                                    <div>
+                                        <div class="font-medium text-brand-dark">Airport Transfer</div>
+                                        <div class="text-sm text-brand-muted">Pick-up and drop-off</div>
                                     </div>
-                                    <div class="flex flex-col items-center gap-2">
-                                        <div class="w-12 h-12 rounded-full bg-[#111] flex items-center justify-center"><i data-lucide="smartphone" class="w-5 h-5 text-white"></i></div>
-                                        <span class="text-[10px] text-gray-400">Airtime</span>
-                                    </div>
-                                    <div class="flex flex-col items-center gap-2">
-                                        <div class="w-12 h-12 rounded-full bg-[#111] flex items-center justify-center"><i data-lucide="tv" class="w-5 h-5 text-white"></i></div>
-                                        <span class="text-[10px] text-gray-400">Cable</span>
-                                    </div>
-                                    <div class="flex flex-col items-center gap-2">
-                                        <div class="w-12 h-12 rounded-full bg-[#111] flex items-center justify-center"><i data-lucide="zap" class="w-5 h-5 text-white"></i></div>
-                                        <span class="text-[10px] text-gray-400">Power</span>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <p class="text-sm font-semibold mb-4">Recent Transactions</p>
-                                    <div class="space-y-4">
-                                        <div class="flex justify-between items-center bg-[#111] p-3 rounded-xl">
-                                            <div class="flex items-center gap-3">
-                                                <div class="w-8 h-8 rounded-full bg-brand-green/20 flex items-center justify-center"><i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-green"></i></div>
-                                                <div>
-                                                    <p class="text-xs font-medium">MTN 5GB Data</p>
-                                                    <p class="text-[10px] text-brand-gray">Today, 2:30 PM</p>
-                                                </div>
-                                            </div>
-                                            <p class="text-xs font-bold text-white">-₦1,200</p>
-                                        </div>
-                                        <div class="flex justify-between items-center bg-[#111] p-3 rounded-xl">
-                                            <div class="flex items-center gap-3">
-                                                <div class="w-8 h-8 rounded-full bg-brand-border flex items-center justify-center"><i data-lucide="arrow-down-left" class="w-4 h-4 text-white"></i></div>
-                                                <div>
-                                                    <p class="text-xs font-medium">Wallet Funding</p>
-                                                    <p class="text-[10px] text-brand-gray">Yesterday</p>
-                                                </div>
-                                            </div>
-                                            <p class="text-xs font-bold text-brand-green">+₦10,000</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                </label>
+                            </div>
+                            
+                            <div class="pt-6">
+                                <button type="submit" class="w-full bg-brand-primary text-white py-4 rounded-xl font-medium text-lg hover:bg-brand-dark transition-colors shadow-md flex items-center justify-center gap-2">
+                                    Build My Itinerary <i data-lucide="sparkles" class="w-5 h-5"></i>
+                                </button>
+                                <p class="text-center text-xs text-brand-muted mt-4">This will open a dedicated planning session in our portal.</p>
                             </div>
                         </div>
-
-                        <!-- Decoration behind phone -->
-                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[120%] bg-brand-green/5 blur-[100px] rounded-full z-10"></div>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Testimonials -->
-        <section id="testimonials" class="py-24 border-y border-brand-border">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16 reveal">
-                    <h2 class="font-display text-3xl md:text-5xl font-bold mb-4">Trusted by Thousands.</h2>
-                    <p class="text-brand-gray text-lg">Don't just take our word for it. Hear from our satisfied users.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Testimonial 1 -->
-                    <div class="glass-card p-8 rounded-2xl reveal">
-                        <div class="flex text-yellow-500 mb-4">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                        </div>
-                        <p class="text-gray-300 mb-6 italic">"GMOH NET is incredibly fast. I use it to buy data for my entire office and the transactions go through literally instantly. The dashboard is also very beautiful."</p>
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center font-bold">OA</div>
-                            <div>
-                                <p class="text-white font-bold text-sm">Olamide A.</p>
-                                <p class="text-brand-gray text-xs">Business Owner</p>
-                            </div>
-                        </div>
+    <section id="story" class="py-24 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1 reveal">
+                    <h2 class="font-serif text-4xl md:text-5xl text-brand-dark mb-6 leading-tight">The bridge between you and the world.</h2>
+                    <div class="space-y-6 text-brand-muted text-lg font-light leading-relaxed">
+                        <p>
+                            Traveling to a new country—whether for study, medical reasons, or leisure—can be overwhelming. Finding a place you can trust, in a neighborhood you don't know, is stressful.
+                        </p>
+                        <p>
+                            AMWAJ exists to remove that stress. We are not just a booking platform; we are your dedicated travel partners. We pre-vet accommodations, simplify complex visa processes, and provide human support when things get complicated.
+                        </p>
+                        <p class="font-medium text-brand-dark">
+                            We believe that when you travel with confidence, you can focus on the purpose of your journey.
+                        </p>
                     </div>
-
-                    <!-- Testimonial 2 -->
-                    <div class="glass-card p-8 rounded-2xl reveal reveal-delay-1">
-                        <div class="flex text-yellow-500 mb-4">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                        </div>
-                        <p class="text-gray-300 mb-6 italic">"As a reseller, pricing is everything. GMOH NET offers the best wholesale rates I've seen, and their API integration was seamless. Highly recommended."</p>
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-green to-green-800 text-black flex items-center justify-center font-bold">CE</div>
-                            <div>
-                                <p class="text-white font-bold text-sm">Chinedu E.</p>
-                                <p class="text-brand-gray text-xs">VTU Agent</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Testimonial 3 -->
-                    <div class="glass-card p-8 rounded-2xl reveal reveal-delay-2">
-                        <div class="flex text-yellow-500 mb-4">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 text-gray-600"></i>
-                        </div>
-                        <p class="text-gray-300 mb-6 italic">"I love how easy it is to pay my electricity bills late at night. No more waiting in lines or dealing with bank app downtimes. It just works."</p>
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center font-bold">FJ</div>
-                            <div>
-                                <p class="text-white font-bold text-sm">Fatima J.</p>
-                                <p class="text-brand-gray text-xs">Student</p>
-                            </div>
-                        </div>
+                    <div class="mt-10">
+                        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=200&auto=format&fit=crop" alt="Signature" class="h-12 opacity-50 grayscale mix-blend-multiply">
+                        <p class="text-sm font-medium mt-2">The AMWAJ Team</p>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section class="py-24 bg-[#050505]">
-            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16 reveal">
-                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-                </div>
-
-                <div class="space-y-4">
-                    <!-- FAQ Item 1 -->
-                    <div class="glass-card rounded-xl overflow-hidden reveal">
-                        <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
-                            <span class="font-medium text-white">How do I fund my wallet?</span>
-                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-gray transition-transform duration-300"></i>
-                        </button>
-                        <div class="px-6 pb-5 text-brand-gray text-sm hidden">
-                            You can fund your wallet instantly via dedicated virtual bank accounts automatically assigned to you upon registration, or by using your ATM card via Paystack/Monnify gateways.
-                        </div>
-                    </div>
-
-                    <!-- FAQ Item 2 -->
-                    <div class="glass-card rounded-xl overflow-hidden reveal reveal-delay-1">
-                        <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
-                            <span class="font-medium text-white">Are the data bundles normal or SME?</span>
-                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-gray transition-transform duration-300"></i>
-                        </button>
-                        <div class="px-6 pb-5 text-brand-gray text-sm hidden">
-                            We provide a variety of options including SME, Corporate Gifting, and Direct Data. You can choose whichever suits your needs and budget perfectly from the dashboard.
-                        </div>
-                    </div>
-
-                    <!-- FAQ Item 3 -->
-                    <div class="glass-card rounded-xl overflow-hidden reveal reveal-delay-2">
-                        <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
-                            <span class="font-medium text-white">How does the referral system work?</span>
-                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-gray transition-transform duration-300"></i>
-                        </button>
-                        <div class="px-6 pb-5 text-brand-gray text-sm hidden">
-                            Share your unique referral link found in your dashboard. When someone registers and performs a transaction, you earn a percentage commission instantly credited to your wallet.
-                        </div>
-                    </div>
-
-                    <!-- FAQ Item 4 -->
-                    <div class="glass-card rounded-xl overflow-hidden reveal reveal-delay-3">
-                        <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
-                            <span class="font-medium text-white">What happens if my transaction fails?</span>
-                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-gray transition-transform duration-300"></i>
-                        </button>
-                        <div class="px-6 pb-5 text-brand-gray text-sm hidden">
-                            Our system is highly automated. In the rare event of a network failure from the service provider, your money is automatically reversed to your wallet within minutes. No need to contact support.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Final CTA Section -->
-        <section class="py-24 relative overflow-hidden">
-             <div class="absolute inset-0 bg-brand-green/5"></div>
-             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-64 bg-brand-green/20 blur-[120px] rounded-full z-0"></div>
-             
-             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 reveal">
-                <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-6">Ready to upgrade your<br>digital experience?</h2>
-                <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">Join thousands of Nigerians enjoying fast, secure, and affordable digital services today.</p>
                 
-                <div href="https://app.gmohnet.com/register" class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button class="btn-glow px-10 py-5 rounded-full bg-brand-green text-black font-bold text-lg hover:bg-[#72c918] transition-all transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(130,224,30,0.3)]">
-                        Create Free Account
-                    </button>
+                <div class="order-1 lg:order-2 relative reveal reveal-delay-1">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl relative z-10">
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1000&auto=format&fit=crop" alt="Traveler exploring" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Decorative element -->
+                    <div class="absolute -bottom-8 -left-8 w-64 h-64 bg-brand-sand rounded-full z-0"></div>
                 </div>
-                <p class="mt-6 text-sm text-brand-gray flex items-center justify-center gap-2">
-                    <i data-lucide="lock" class="w-4 h-4"></i> Secure 256-bit encryption. No hidden fees.
-                </p>
-             </div>
-        </section>
+            </div>
+        </div>
+    </section>
 
-    </main>
+    <section class="py-24 bg-brand-sand">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 reveal">
+                <div>
+                    <h2 class="font-serif text-3xl md:text-4xl text-brand-dark mb-2">Travel Journal</h2>
+                    <p class="text-brand-muted">Guides, tips, and insights for your next journey.</p>
+                </div>
+                <a href="#" class="text-brand-primary font-medium hover:text-brand-gold transition-colors inline-flex items-center gap-1">Read all articles <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+            </div>
 
-    <!-- Footer -->
-    <footer class="bg-brand-card pt-16 pb-8 border-t border-brand-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
-                
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Article 1 -->
+                <article class="group cursor-pointer reveal">
+                    <div class="aspect-video rounded-2xl overflow-hidden mb-4 relative">
+                        <img src="https://images.unsplash.com/photo-1572252009286-268acec5ca0a?q=80&w=800&auto=format&fit=crop" alt="Cairo Streets" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-gold mb-2 block">Guide</span>
+                    <h3 class="font-serif text-xl text-brand-dark mb-2 group-hover:text-brand-primary transition-colors line-clamp-2">First-time traveler's guide to arriving in Cairo</h3>
+                    <p class="text-brand-muted text-sm line-clamp-2">Everything you need to know from airport transfers to local SIM cards.</p>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="group cursor-pointer reveal reveal-delay-1">
+                    <div class="aspect-video rounded-2xl overflow-hidden mb-4 relative">
+                        <img src="https://images.unsplash.com/photo-1559827260-36ca18080f49?q=80&w=800&auto=format&fit=crop" alt="Visa Documents" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-gold mb-2 block">Visas</span>
+                    <h3 class="font-serif text-xl text-brand-dark mb-2 group-hover:text-brand-primary transition-colors line-clamp-2">How student visa applications work for Saudi Arabia</h3>
+                    <p class="text-brand-muted text-sm line-clamp-2">A step-by-step breakdown of requirements and processing timelines.</p>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="group cursor-pointer reveal reveal-delay-2">
+                    <div class="aspect-video rounded-2xl overflow-hidden mb-4 relative">
+                        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=800&auto=format&fit=crop" alt="Apartment interior" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-gold mb-2 block">Accommodation</span>
+                    <h3 class="font-serif text-xl text-brand-dark mb-2 group-hover:text-brand-primary transition-colors line-clamp-2">Best areas to stay for long-term medical treatment</h3>
+                    <p class="text-brand-muted text-sm line-clamp-2">Quiet, accessible neighborhoods close to major healthcare facilities.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-brand-primary relative overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2000&auto=format&fit=crop" alt="Clouds and plane wing" class="w-full h-full object-cover opacity-20 mix-blend-overlay">
+        </div>
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
+            <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6">Wherever you're going,<br>go with confidence.</h2>
+            <p class="text-white/80 text-lg mb-10 max-w-2xl mx-auto font-light">From your first search to the moment you arrive, AMWAJ is here to ensure your journey is seamless, comfortable, and exactly as you planned.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="openCustomerDashboard()" class="bg-white text-brand-primary px-8 py-4 rounded-xl font-medium hover:bg-brand-sand transition-colors shadow-lg">
+                    Start Your Journey
+                </button>
+                <a href="#accommodations" class="border border-white/40 text-white px-8 py-4 rounded-xl font-medium hover:bg-white/10 transition-colors">
+                    Explore Stays
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-brand-dark text-white/70 pt-20 pb-10 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-16">
                 <!-- Brand Info -->
                 <div class="lg:col-span-2">
-                    <div class="flex items-center gap-2 mb-6">
-                        <div class="h-10 flex items-center">
-    <img src="logo.png" alt="GMOH NET Logo" class="h-full w-auto">
-</div>
-                    </div>
-                    <p class="text-brand-gray text-sm mb-6 max-w-md">
-                        Whatever you do, get into network. The most reliable and premium digital utility platform in Nigeria.
+                    <span class="font-serif text-2xl font-bold tracking-wider text-white mb-6 block">
+                        AMWAJ<span class="text-brand-gold">.</span>
+                    </span>
+                    <p class="text-sm font-light mb-8 max-w-sm leading-relaxed">
+                        The trusted bridge for international travelers. Providing premium accommodations, visa assistance, and journey support across borders.
                     </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#111] border border-brand-border flex items-center justify-center text-gray-400 hover:text-brand-green hover:border-brand-green transition-colors">
-                            <i data-lucide="twitter" class="w-5 h-5"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#111] border border-brand-border flex items-center justify-center text-gray-400 hover:text-brand-green hover:border-brand-green transition-colors">
-                            <i data-lucide="facebook" class="w-5 h-5"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#111] border border-brand-border flex items-center justify-center text-gray-400 hover:text-brand-green hover:border-brand-green transition-colors">
-                            <i data-lucide="instagram" class="w-5 h-5"></i>
-                        </a>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold hover:text-brand-dark transition-all"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold hover:text-brand-dark transition-all"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold hover:text-brand-dark transition-all"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold hover:text-brand-dark transition-all"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
                     </div>
                 </div>
 
-                <!-- Quick Links -->
+                <!-- Navigation Links -->
                 <div>
-                    <h4 class="text-white font-bold mb-4">Quick Links</h4>
-                    <ul class="space-y-3 text-sm text-brand-gray">
-                        <li><a href="#" class="hover:text-brand-green transition-colors">Home</a></li>
-                        <li><a href="#services" class="hover:text-brand-green transition-colors">Services</a></li>
-                        <li><a href="#how-it-works" class="hover:text-brand-green transition-colors">How it works</a></li>
-                        <li><a href="#" class="hover:text-brand-green transition-colors">Pricing</a></li>
-                        <li><a href="#" class="hover:text-brand-green transition-colors">Become an Agent</a></li>
+                    <h4 class="text-white font-medium mb-6">Explore</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#accommodations" class="hover:text-brand-gold transition-colors">Find a Stay</a></li>
+                        <li><a href="#destinations" class="hover:text-brand-gold transition-colors">Destinations</a></li>
+                        <li><a href="#visas" class="hover:text-brand-gold transition-colors">Visa Services</a></li>
+                        <li><a href="#purposes" class="hover:text-brand-gold transition-colors">Travel Types</a></li>
+                        <li><a href="#planner" class="hover:text-brand-gold transition-colors">Plan Journey</a></li>
                     </ul>
                 </div>
 
-                <!-- Legal -->
+                <!-- Support Links -->
                 <div>
-                    <h4 class="text-white font-bold mb-4">Legal</h4>
-                    <ul class="space-y-3 text-sm text-brand-gray">
-                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Refund Policy</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Security</a></li>
+                    <h4 class="text-white font-medium mb-6">Support</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">Booking Support</a></li>
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">Visa FAQs</a></li>
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">Contact Us</a></li>
                     </ul>
                 </div>
 
-                <!-- Contact -->
+                <!-- Legal Links -->
                 <div>
-                    <h4 class="text-white font-bold mb-4">Contact Us</h4>
-                    <ul class="space-y-4 text-sm text-brand-gray">
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="mail" class="w-5 h-5 text-brand-green shrink-0"></i>
-                            <a href="mailto:support@gmohnet.com" class="hover:text-white">support@gmohnet.com</a>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="phone" class="w-5 h-5 text-brand-green shrink-0"></i>
-                            <div>
-                                <a href="tel:+2347086676866" class="block hover:text-white">+234 708 667 6866</a>
-                                <a href="tel:+2348037899816" class="block hover:text-white mt-1">+234 803 789 9816</a>
-                            </div>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="map-pin" class="w-5 h-5 text-brand-green shrink-0"></i>
-                            <span>Bauchi State, Nigeria<br>Mon - Sat (8AM - 6PM)</span>
-                            <span>No. 07 3B <br> Plaza 3rd avenue <br> Gwarimpa Abuja, FCT.</span>
-                        </li>
+                    <h4 class="text-white font-medium mb-6">Legal</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-brand-gold transition-colors">Cancellation Policy</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="pt-8 border-t border-brand-border flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-brand-gray text-xs">
-                    &copy; <span id="year"></span> GMOH NET. All rights reserved.
-                </p>
-                <div class="flex items-center gap-2 text-brand-gray text-xs">
-                    Made with <i data-lucide="heart" class="w-3 h-3 text-brand-green fill-current"></i> for Nigeria.
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-light">
+                <p>&copy; <span id="year"></span> AMWAJ Technologies. All rights reserved.</p>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="globe" class="w-4 h-4"></i>
+                    <span>English (Global)</span>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Interactive Scripts -->
     <script>
-        // Initialize Lucide Icons
-  lucide.createIcons();
+        // Initialize Icons
+        lucide.createIcons();
 
-
-        // Set current year in footer
+        // Set Copyright Year
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Mobile Menu Toggle
+        // 1. Navbar Scroll Effect & Mobile Menu
+        const navbar = document.getElementById('navbar');
+        const logoText = document.getElementById('logo-text');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
+        let isMenuOpen = false;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm', 'py-3');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-sm', 'py-3');
+                navbar.classList.add('py-4');
+            }
+        });
 
         mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
+                mobileMenuBtn.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                mobileMenuBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+                document.body.style.overflow = '';
+            }
+            lucide.createIcons();
         });
 
         // Close mobile menu on link click
-        mobileMenu.querySelectorAll('a').forEach(link => {
+        document.querySelectorAll('.mobile-link').forEach(link => {
             link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+                isMenuOpen = false;
+                mobileMenu.classList.add('translate-x-full');
+                mobileMenuBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+                document.body.style.overflow = '';
+                lucide.createIcons();
             });
         });
 
-        // FAQ Accordion Logic
-        function toggleFaq(button) {
-            const content = button.nextElementSibling;
-            const icon = button.querySelector('i');
-            
-            // Close all others
-            document.querySelectorAll('.faq-content').forEach(el => {
-                if(el !== content && !el.classList.contains('hidden')) {
-                    el.classList.add('hidden');
-                    el.previousElementSibling.querySelector('i').style.transform = 'rotate(0deg)';
-                }
-            });
-
-            // Toggle current
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-                content.classList.add('faq-content'); // Add class for tracking
-            } else {
-                content.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
-            }
-        }
-
-        // Intersection Observer for Scroll Animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
+        // 2. Scroll Reveal Animations (Intersection Observer)
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
         };
 
-        const observer = new IntersectionObserver((entries, observer) => {
+        const revealObserver = new IntersectionObserver(function(entries, observer) {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target); // Run once
-                }
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
             });
-        }, observerOptions);
+        }, revealOptions);
 
-        document.querySelectorAll('.reveal').forEach((element) => {
-            observer.observe(element);
-        });
+        revealElements.forEach(el => revealObserver.observe(el));
 
-        // Navbar blur on scroll
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.style.background = 'rgba(3, 3, 3, 0.85)';
-                nav.style.borderBottom = '1px solid rgba(130, 224, 30, 0.1)';
-            } else {
-                nav.style.background = 'rgba(3, 3, 3, 0.7)';
-                nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
+        // 3. Property Data Architecture (For future SPA integration)
+        const propertiesData = [
+            {
+                id: "prop_001",
+                name: "The Nile Executive Suite",
+                country: "Egypt",
+                city: "Cairo",
+                location: "Zamalek",
+                type: "Apartment",
+                bedrooms: 2,
+                guests: 4,
+                priceString: "View rates", // Abstracting exact price for premium feel
+                amenities: ["Nile View", "High-speed WiFi", "Kitchen"],
+                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=800&auto=format&fit=crop",
+                verified: true
+            },
+            {
+                id: "prop_002",
+                name: "Riyadh Diplomatic Villa",
+                country: "Saudi Arabia",
+                city: "Riyadh",
+                location: "Diplomatic Quarter",
+                type: "Villa",
+                bedrooms: 4,
+                guests: 8,
+                priceString: "View rates",
+                amenities: ["Private Pool", "Security", "Parking"],
+                image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop",
+                verified: true
+            },
+            {
+                id: "prop_003",
+                name: "Giza Pyramids View Loft",
+                country: "Egypt",
+                city: "Giza",
+                location: "Haram",
+                type: "Loft",
+                bedrooms: 1,
+                guests: 2,
+                priceString: "View rates",
+                amenities: ["Pyramid View", "Balcony", "AC"],
+                image: "https://images.unsplash.com/photo-1502672260266-1c1c24240f57?q=80&w=800&auto=format&fit=crop",
+                verified: true
             }
-        });
+        ];
+
+        // 4. Render Property Cards Dynamically
+        function renderAccommodations() {
+            const grid = document.getElementById('property-grid');
+            grid.innerHTML = ''; // Clear loading state
+
+            propertiesData.forEach((prop, index) => {
+                // Add delay classes for staggered animation
+                let delayClass = index === 1 ? 'reveal-delay-1' : index === 2 ? 'reveal-delay-2' : '';
+                
+                const card = document.createElement('div');
+                card.className = `bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-premium transition-all duration-300 border border-brand-border group flex flex-col reveal ${delayClass}`;
+                
+                // Add content
+                card.innerHTML = `
+                    <div class="relative aspect-video overflow-hidden">
+                        <img src="${prop.image}" alt="${prop.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        ${prop.verified ? `
+                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 text-xs font-medium text-brand-dark shadow-sm">
+                                <i data-lucide="badge-check" class="w-3 h-3 text-brand-gold"></i> Verified
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-serif text-xl text-brand-dark leading-tight">${prop.name}</h3>
+                        </div>
+                        <p class="text-sm text-brand-muted mb-4 flex items-center gap-1">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i> ${prop.location}, ${prop.city}
+                        </p>
+                        
+                        <div class="flex gap-4 text-sm text-brand-dark mb-6 border-y border-brand-border py-3">
+                            <span class="flex items-center gap-1.5"><i data-lucide="bed" class="w-4 h-4 text-brand-muted"></i> ${prop.bedrooms} Beds</span>
+                            <span class="flex items-center gap-1.5"><i data-lucide="users" class="w-4 h-4 text-brand-muted"></i> ${prop.guests} Guests</span>
+                        </div>
+                        
+                        <div class="mt-auto">
+                            <button onclick="openBookingRequest('${prop.id}')" class="w-full bg-brand-sand text-brand-dark py-3 rounded-xl font-medium hover:bg-brand-primary hover:text-white transition-colors duration-300">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            
+            // Re-initialize icons for newly added elements
+            lucide.createIcons();
+            
+            // Observe new elements for scroll animation
+            document.querySelectorAll('#property-grid .reveal').forEach(el => revealObserver.observe(el));
+        }
+
+        // Call render on load
+        document.addEventListener('DOMContentLoaded', renderAccommodations);
+
+        // 5. Future Integration Stubs (Simulating SPA routing actions)
+        
+        function openCustomerDashboard() {
+            console.log("Routing to customer.html SPA...");
+            // Simulate action
+            const btn = event.currentTarget;
+            const originalText = btn.innerText;
+            btn.innerText = "Loading...";
+            setTimeout(() => { btn.innerText = originalText; alert("In production, this routes to the secure Customer Portal SPA (customer.html)"); }, 800);
+        }
+
+        function openBookingRequest(propertyId) {
+            console.log(`Opening booking flow for property: ${propertyId}`);
+            alert(`Opening details for property ID: ${propertyId}. Will integrate with backend view.`);
+        }
+
+        function startVisaApplication() {
+            console.log("Initiating visa application flow...");
+            document.getElementById('planner').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function filterByPurpose(purpose) {
+            console.log(`Filtering accommodations and services for: ${purpose}`);
+            document.getElementById('planner').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function startJourneySearch() {
+            console.log("Hero search submitted. Parsing intent...");
+            document.getElementById('accommodations').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function startJourneyPlanner() {
+            console.log("Journey planner submitted. Generating itinerary...");
+            const btn = document.querySelector('#journey-form button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Processing...';
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                lucide.createIcons();
+                alert("This intent data will be passed to the Customer SPA to generate a custom itinerary view.");
+            }, 1000);
+        }
+
+        function openDestination(dest) {
+            console.log(`Exploring destination: ${dest}`);
+            document.getElementById('accommodations').scrollIntoView({ behavior: 'smooth' });
+        }
+
     </script>
 </body>
-</html>
+    </html>
