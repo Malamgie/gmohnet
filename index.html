@@ -147,7 +147,7 @@
 
             <!-- Desktop CTA -->
             <div class="hidden lg:flex items-center space-x-4">
-                <button class="text-sm font-medium text-brand-dark hover:text-brand-gold transition-colors nav-link" onclick="openCustomerDashboard()">Sign In</button>
+                <button class="text-sm font-medium text-brand-dark hover:text-brand-gold transition-colors nav-link auth-btn" onclick="openCustomerDashboard()">Sign In</button>
                 <a href="#planner" class="bg-brand-primary text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-brand-dark transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-300">
                     Plan My Journey
                 </a>
@@ -169,7 +169,7 @@
                 <a href="#story" class="mobile-link text-brand-dark hover:text-brand-gold transition-colors">Our Story</a>
             </div>
             <div class="mt-auto pt-8 flex flex-col space-y-4">
-                <button class="w-full border border-brand-dark/20 text-brand-dark py-3 rounded-xl font-medium" onclick="openCustomerDashboard()">Sign In</button>
+                <button class="w-full border border-brand-dark/20 text-brand-dark py-3 rounded-xl font-medium auth-btn" onclick="openCustomerDashboard()">Sign In</button>
                 <a href="#planner" class="w-full bg-brand-primary text-white text-center py-3 rounded-xl font-medium mobile-link">Plan My Journey</a>
             </div>
         </div>
@@ -799,65 +799,35 @@
 
         revealElements.forEach(el => revealObserver.observe(el));
 
-        // 3. Property Data Architecture (For future SPA integration)
-        const propertiesData = [
-            {
-                id: "prop_001",
-                name: "The Nile Executive Suite",
-                country: "Egypt",
-                city: "Cairo",
-                location: "Zamalek",
-                type: "Apartment",
-                bedrooms: 2,
-                guests: 4,
-                priceString: "View rates", // Abstracting exact price for premium feel
-                amenities: ["Nile View", "High-speed WiFi", "Kitchen"],
-                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=800&auto=format&fit=crop",
-                verified: true
-            },
-            {
-                id: "prop_002",
-                name: "Riyadh Diplomatic Villa",
-                country: "Saudi Arabia",
-                city: "Riyadh",
-                location: "Diplomatic Quarter",
-                type: "Villa",
-                bedrooms: 4,
-                guests: 8,
-                priceString: "View rates",
-                amenities: ["Private Pool", "Security", "Parking"],
-                image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop",
-                verified: true
-            },
-            {
-                id: "prop_003",
-                name: "Giza Pyramids View Loft",
-                country: "Egypt",
-                city: "Giza",
-                location: "Haram",
-                type: "Loft",
-                bedrooms: 1,
-                guests: 2,
-                priceString: "View rates",
-                amenities: ["Pyramid View", "Balcony", "AC"],
-                image: "https://images.unsplash.com/photo-1502672260266-1c1c24240f57?q=80&w=800&auto=format&fit=crop",
-                verified: true
-            }
+        // 3. Data Integration Bridge (Syncs with dashboard.html localStorage)
+        const DB = {
+            get: (collection) => JSON.parse(localStorage.getItem(collection) || '[]')
+        };
+
+        // Fallback data if dashboard hasn't seeded yet
+        const defaultProperties = [
+            { id: 'PROP-1', name: 'The Nile Executive Suite', country: 'Egypt', city: 'Cairo', type: 'Apartment', bedrooms: 2, guests: 4, price: 120, image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=800&auto=format&fit=crop', verified: true },
+            { id: 'PROP-2', name: 'Riyadh Diplomatic Villa', country: 'Saudi Arabia', city: 'Riyadh', type: 'Villa', bedrooms: 4, guests: 8, price: 350, image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop', verified: true },
+            { id: 'PROP-3', name: 'Giza Pyramids View Loft', country: 'Egypt', city: 'Giza', type: 'Loft', bedrooms: 1, guests: 2, price: 85, image: 'https://images.unsplash.com/photo-1502672260266-1c1c24240f57?q=80&w=800&auto=format&fit=crop', verified: true }
         ];
+
+        function getProperties() {
+            const stored = DB.get('amwaj_properties');
+            return stored.length > 0 ? stored.slice(0, 3) : defaultProperties;
+        }
 
         // 4. Render Property Cards Dynamically
         function renderAccommodations() {
             const grid = document.getElementById('property-grid');
-            grid.innerHTML = ''; // Clear loading state
+            const properties = getProperties();
+            grid.innerHTML = ''; 
 
-            propertiesData.forEach((prop, index) => {
-                // Add delay classes for staggered animation
+            properties.forEach((prop, index) => {
                 let delayClass = index === 1 ? 'reveal-delay-1' : index === 2 ? 'reveal-delay-2' : '';
                 
                 const card = document.createElement('div');
                 card.className = `bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-premium transition-all duration-300 border border-brand-border group flex flex-col reveal ${delayClass}`;
                 
-                // Add content
                 card.innerHTML = `
                     <div class="relative aspect-video overflow-hidden">
                         <img src="${prop.image}" alt="${prop.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
@@ -869,10 +839,10 @@
                     </div>
                     <div class="p-6 flex-1 flex flex-col">
                         <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-serif text-xl text-brand-dark leading-tight">${prop.name}</h3>
+                            <h3 class="font-serif text-xl text-brand-dark leading-tight line-clamp-1">${prop.name}</h3>
                         </div>
                         <p class="text-sm text-brand-muted mb-4 flex items-center gap-1">
-                            <i data-lucide="map-pin" class="w-3 h-3"></i> ${prop.location}, ${prop.city}
+                            <i data-lucide="map-pin" class="w-3 h-3"></i> ${prop.city || prop.location}, ${prop.country}
                         </p>
                         
                         <div class="flex gap-4 text-sm text-brand-dark mb-6 border-y border-brand-border py-3">
@@ -880,9 +850,10 @@
                             <span class="flex items-center gap-1.5"><i data-lucide="users" class="w-4 h-4 text-brand-muted"></i> ${prop.guests} Guests</span>
                         </div>
                         
-                        <div class="mt-auto">
-                            <button onclick="openBookingRequest('${prop.id}')" class="w-full bg-brand-sand text-brand-dark py-3 rounded-xl font-medium hover:bg-brand-primary hover:text-white transition-colors duration-300">
-                                View Details
+                        <div class="mt-auto flex items-center justify-between">
+                            <div class="font-medium text-brand-dark">$${prop.price || '---'}<span class="text-xs text-brand-muted font-normal">/night</span></div>
+                            <button onclick="openBookingRequest('${prop.id}')" class="bg-brand-sand text-brand-dark px-4 py-2 rounded-xl text-sm font-medium hover:bg-brand-primary hover:text-white transition-colors duration-300">
+                                View Stay
                             </button>
                         </div>
                     </div>
@@ -890,66 +861,63 @@
                 grid.appendChild(card);
             });
             
-            // Re-initialize icons for newly added elements
             lucide.createIcons();
-            
-            // Observe new elements for scroll animation
             document.querySelectorAll('#property-grid .reveal').forEach(el => revealObserver.observe(el));
         }
 
-        // Call render on load
-        document.addEventListener('DOMContentLoaded', renderAccommodations);
+        // Session Management
+        function checkSession() {
+            const sessions = DB.get('amwaj_sessions');
+            if (sessions.length > 0) {
+                const user = DB.get('amwaj_users').find(u => u.id === sessions[0].userId);
+                document.querySelectorAll('.auth-btn').forEach(btn => {
+                    btn.innerText = user && user.role === 'admin' ? 'Admin Portal' : 'My Dashboard';
+                });
+            }
+        }
 
-        // 5. Future Integration Stubs (Simulating SPA routing actions)
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAccommodations();
+            checkSession();
+        });
+
+        // 5. SPA Integration Routing
         
         function openCustomerDashboard() {
-            console.log("Routing to customer.html SPA...");
-            // Simulate action
-            const btn = event.currentTarget;
-            const originalText = btn.innerText;
-            btn.innerText = "Loading...";
-            setTimeout(() => { btn.innerText = originalText; alert("In production, this routes to the secure Customer Portal SPA (customer.html)"); }, 800);
+            window.location.href = 'dashboard.html';
         }
 
         function openBookingRequest(propertyId) {
-            console.log(`Opening booking flow for property: ${propertyId}`);
-            alert(`Opening details for property ID: ${propertyId}. Will integrate with backend view.`);
+            window.location.href = 'dashboard.html#/stays';
         }
 
         function startVisaApplication() {
-            console.log("Initiating visa application flow...");
-            document.getElementById('planner').scrollIntoView({ behavior: 'smooth' });
+            window.location.href = 'dashboard.html#/visa';
         }
 
         function filterByPurpose(purpose) {
-            console.log(`Filtering accommodations and services for: ${purpose}`);
-            document.getElementById('planner').scrollIntoView({ behavior: 'smooth' });
+            window.location.href = 'dashboard.html#/stays';
         }
 
         function startJourneySearch() {
-            console.log("Hero search submitted. Parsing intent...");
-            document.getElementById('accommodations').scrollIntoView({ behavior: 'smooth' });
+            window.location.href = 'dashboard.html#/stays';
         }
 
         function startJourneyPlanner() {
-            console.log("Journey planner submitted. Generating itinerary...");
             const btn = document.querySelector('#journey-form button[type="submit"]');
             const originalContent = btn.innerHTML;
-            btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Processing...';
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Directing...';
             lucide.createIcons();
             
             setTimeout(() => {
-                btn.innerHTML = originalContent;
-                lucide.createIcons();
-                alert("This intent data will be passed to the Customer SPA to generate a custom itinerary view.");
-            }, 1000);
+                window.location.href = 'dashboard.html#/auth';
+            }, 600);
         }
 
         function openDestination(dest) {
-            console.log(`Exploring destination: ${dest}`);
-            document.getElementById('accommodations').scrollIntoView({ behavior: 'smooth' });
+            window.location.href = 'dashboard.html#/stays';
         }
 
     </script>
 </body>
-    </html>
+</html>
